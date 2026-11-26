@@ -270,3 +270,45 @@ body{background:#fffdfa;color:var(--dg-ink)}
  .village-quick-nav .container{padding-left:12px;padding-right:12px}
  .village-stats article{border-radius:13px}
 }
+
+/* Local business horizontal carousel - shared reusable village component */
+.business-heading-row{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin-bottom:20px}
+.business-slider-controls{display:flex;gap:9px;flex-shrink:0}
+.business-slider-controls button{width:42px;height:42px;border:0;border-radius:50%;background:#087653;color:#fff;font-size:28px;line-height:1;cursor:pointer;box-shadow:0 5px 14px #08765330}
+.business-slider-controls button:hover{background:#f47721}
+.business-counts{display:flex;gap:12px;margin:20px 0}
+.business-counts>div{flex:1;display:flex;align-items:center;gap:12px;padding:14px 18px;border-radius:13px}
+.business-counts strong{font-size:23px;font-weight:700}
+.business-counts span{font-size:13px;color:#6e786f}
+.business-slider{overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scroll-behavior:smooth;padding:5px 3px 20px;scrollbar-width:thin;scrollbar-color:#e7a15b #f8f1e8}
+.business-track{display:flex;gap:18px;width:max-content;align-items:stretch}
+.business-slide{width:270px;flex:0 0 270px;scroll-snap-align:start;overflow:hidden;border:1px solid #eee0d2;border-radius:15px;background:#fff;box-shadow:0 5px 17px rgba(42,38,27,.09);transition:transform .2s ease,box-shadow .2s ease}
+.business-slide:hover{transform:translateY(-4px);box-shadow:0 12px 26px rgba(42,38,27,.14)}
+.business-photo{height:154px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;font-size:45px;color:#145b43;background:linear-gradient(135deg,#eaf5e9,#fff0df)}
+.business-photo small{font-size:13px;font-weight:700;color:#425d4d}
+.business-photo-farm,.business-photo-grain,.business-photo-crops{background:linear-gradient(135deg,#e4f2d8,#f8edcf)}
+.business-photo-dairy,.business-photo-lassi{background:linear-gradient(135deg,#e9f4fa,#fff3e0)}
+.business-photo-construction,.business-photo-pg,.business-photo-tools{background:linear-gradient(135deg,#e9edf4,#f9e9d7)}
+.business-photo-sports{background:linear-gradient(135deg,#dcefe4,#dce8f8)}
+.business-photo-photo,.business-photo-decor,.business-photo-beauty,.business-photo-jewels{background:linear-gradient(135deg,#fbe6ee,#fff2df)}
+.business-photo-electric,.business-photo-career,.business-photo-water{background:linear-gradient(135deg,#e5f3f0,#eef0ff)}
+.business-card-body{padding:15px 16px 17px;display:flex;flex-direction:column;min-height:170px}
+.business-card-body>span{font-size:11px;letter-spacing:.2px;color:#087653;font-weight:700}
+.business-card-body h3{font-size:17px;line-height:1.4;margin:7px 0;color:#e66c18}
+.business-card-body p{font-size:13px;line-height:1.55;color:#66736b;margin:0 0 12px}
+.business-actions{margin-top:auto;display:flex;align-items:center;gap:8px}
+.business-call{display:inline-flex;align-items:center;gap:7px;padding:9px 13px;border-radius:9px;background:#087653;color:#fff;font-size:13px;font-weight:700;text-decoration:none}
+.business-call:hover{background:#f47721}
+.contact-pending{font-size:11px;color:#8b7968;background:#f8f4ed;border-radius:7px;padding:7px 9px}
+.business-slider-hint{text-align:center;color:#8a8176;font-size:12px;margin:0 0 15px}
+@media(max-width:600px){
+ .business-heading-row{align-items:center}
+ .business-slider-controls button{width:36px;height:36px}
+ .business-counts{gap:7px}
+ .business-counts>div{padding:11px 8px;gap:6px;flex-direction:column;text-align:center}
+ .business-counts strong{font-size:19px}
+ .business-counts span{font-size:11px}
+ .business-slide{width:245px;flex-basis:245px}
+ .business-photo{height:140px}
+}
+@media(prefers-reduced-motion:reduce){.business-slider{scroll-behavior:auto}.business-slide{transition:none}}
