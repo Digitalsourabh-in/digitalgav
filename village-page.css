@@ -97,3 +97,99 @@
 @media(max-width:850px){.business-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.service-contact{grid-template-columns:1fr 1fr}}
 @media(max-width:600px){.education-grid,.service-contact{grid-template-columns:1fr}.business-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:390px){.business-grid,.business-counts{grid-template-columns:1fr}}
+
+
+/* Digital Gav — reusable 12-section village website template */
+html{scroll-behavior:smooth;scroll-padding-top:88px}
+.village-hero{min-height:470px}
+.village-hero .button{display:inline-flex;margin-top:22px}
+.village-quick-nav{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--line);box-shadow:0 5px 18px rgba(12,54,41,.05)}
+.quick-nav-inner{display:flex;gap:7px;overflow-x:auto;padding-top:12px;padding-bottom:12px;scrollbar-width:thin}
+.quick-nav-inner a{flex:0 0 auto;text-decoration:none;color:var(--green-dark);font-size:13px;font-weight:600;padding:8px 12px;border-radius:30px;background:#f1f7f3;transition:.2s}
+.quick-nav-inner a:hover{background:var(--green-dark);color:#fff}
+.village-content{max-width:1120px}
+.village-section{margin:0 0:78px;scroll-margin-top:85px}
+.village-section[id]{scroll-margin-top:85px}
+.section-kicker{font-size:10px;letter-spacing:1.7px;font-weight:700;color:var(--green);text-transform:uppercase}
+.content-heading{font-size:clamp(27px,3vw,36px);line-height:1.25;margin:8px 0 12px;color:#17392f}
+.section-lead{font-size:15px;line-height:1.8;color:var(--muted);max-width:760px;margin:0 0 25px}
+.section-heading-row{display:flex;align-items:center;justify-content:space-between}
+.heading-symbol{font-size:42px;background:var(--mint);width:76px;height:76px;display:grid;place-items:center;border-radius:22px}
+.about-layout{display:grid;grid-template-columns:1.2fr .8fr;gap:30px;align-items:stretch}
+.about-copy{font-size:15px;line-height:1.9;color:var(--muted)}
+.about-points{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.about-points span{padding:8px 12px;background:var(--mint);border-radius:30px;color:var(--green-dark);font-size:12px;font-weight:600}
+.photo-placeholder{min-height:210px;border:1px dashed #9bbdaf;border-radius:18px;background:linear-gradient(135deg,#edf6f0,#dcece3);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;color:var(--green-dark)}
+.photo-placeholder>span{font-size:38px;margin-bottom:10px}
+.photo-placeholder strong{font-size:16px}
+.photo-placeholder small{font-size:12px;color:#638477;margin-top:5px}
+.about-photo{min-height:250px}
+.wide-placeholder{min-height:180px;margin-top:22px}
+.feature-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px}
+.feature-card{padding:22px 19px;border:1px solid var(--line);border-radius:16px;background:#fff;transition:transform .2s,box-shadow .2s}
+.feature-card:hover,.info-card:hover,.business-grid article:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(12,54,41,.08)}
+.feature-card>span{font-size:27px}
+.feature-card h3{font-size:17px;margin:13px 0 7px;color:#17392f}
+.feature-card p{font-size:13px;line-height:1.75;color:var(--muted);margin:0}
+.village-stats{margin:20px 0 32px;grid-template-columns:repeat(3,minmax(0,1fr))}
+.village-stats article{box-shadow:0 5px 18px rgba(12,54,41,.035)}
+.village-details{margin-top:22px}
+.village-details h3{font-size:25px;margin:8px 0}
+.data-note,.placeholder-note{font-size:12px;line-height:1.7;color:var(--muted);padding:12px 15px;background:#f4f8f5;border-left:3px solid var(--green);border-radius:5px}
+.placeholder-note{background:#fff9e9;border-color:#d6a84e}
+.education-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.info-card{padding:24px;border:1px solid var(--line);border-radius:16px;background:#fff}
+.info-card h3{font-size:20px;margin:9px 0}
+.info-card p{font-size:14px;line-height:1.7;color:var(--muted)}
+.info-eyebrow{font-size:11px;color:var(--green);font-weight:700}
+.mini-facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:18px 0}
+.mini-facts>div{background:#f1f7f3;border-radius:10px;padding:12px}
+.mini-facts b,.mini-facts small{display:block}
+.mini-facts b{font-size:20px;color:var(--green-dark)}
+.mini-facts small{font-size:11px;color:var(--muted)}
+.info-card h4{font-size:14px;margin:18px 0 5px}
+.contact-mini-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:20px 0}
+.contact-mini-grid article{padding:18px;border:1px solid var(--line);border-radius:12px}
+.contact-mini-grid small,.contact-mini-grid strong,.contact-mini-grid span{display:block}
+.contact-mini-grid small{font-size:11px;color:var(--green);font-weight:700}
+.contact-mini-grid strong{font-size:15px;margin:7px 0}
+.contact-mini-grid span{font-size:12px;color:var(--muted)}
+.legacy-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.legacy-card{padding:25px;border:1px solid var(--line);border-radius:16px;background:#fff}
+.legacy-icon{font-size:30px}
+.legacy-card h3{font-size:21px;margin:12px 0 5px;color:var(--green-dark)}
+.legacy-subtitle{font-size:12px;color:var(--green);font-weight:600;margin:0 0 16px}
+.legacy-card dl{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 16px}
+.legacy-card dl div{padding:9px;background:#f4f8f5;border-radius:8px}
+.legacy-card dt{font-size:11px;color:var(--muted)}
+.legacy-card dd{font-size:13px;font-weight:600;margin:2px 0 0}
+.legacy-card>p:not(.legacy-subtitle){font-size:13px;color:var(--muted);line-height:1.8}
+.official-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+.official-grid article{padding:19px;border:1px solid var(--line);border-radius:13px;background:#fff}
+.official-grid article>span{font-size:12px;color:var(--green);font-weight:700}
+.official-grid h3{font-size:16px;margin:8px 0}
+.official-grid a{font-size:13px;color:var(--green);font-weight:700;text-decoration:none}
+.official-grid-compact{grid-template-columns:repeat(4,minmax(0,1fr))}
+.subsection-heading{font-size:19px;margin:28px 0 13px}
+.business-counts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:20px 0}
+.business-counts>div{text-align:center;padding:18px;background:var(--mint);border-radius:13px}
+.business-counts strong,.business-counts span{display:block}
+.business-counts strong{font-size:27px;color:var(--green-dark)}
+.business-counts span{font-size:12px;color:var(--muted)}
+.business-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.business-grid article{padding:19px;border:1px solid var(--line);border-radius:14px;background:#fff}
+.business-grid article>span{font-size:11px;color:var(--green);font-weight:700}
+.business-grid h3{font-size:15px;margin:9px 0 5px}
+.business-grid p{font-size:12px;color:var(--muted);margin:0}
+.contact-panel{padding:34px;border-radius:18px;background:var(--green-dark);color:#fff;display:flex;align-items:center;justify-content:space-between;gap:25px}
+.contact-panel h2{font-size:clamp(25px,3vw,34px);margin:8px 0}
+.contact-panel p{color:#d0e4d8;margin:0;max-width:580px;line-height:1.8}
+.contact-panel .section-kicker{color:#9bd5bc}
+.contact-placeholder{min-width:245px;min-height:135px;padding:20px;border:1px solid #ffffff50;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.contact-placeholder>span{font-size:28px}
+.contact-placeholder strong{font-size:14px;margin:8px 0}
+.contact-placeholder small{font-size:11px;color:#c4ded2}
+.template-note{text-align:center;color:var(--muted);font-size:12px;padding:0 0 35px}
+@media(max-width:900px){.feature-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.business-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.official-grid-compact{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){.village-hero{min-height:400px}.about-layout,.village-details{grid-template-columns:1fr}.about-photo{min-height:190px}.education-grid,.legacy-grid{grid-template-columns:1fr}.contact-mini-grid{grid-template-columns:1fr 1fr}.contact-panel{align-items:flex-start;flex-direction:column}.contact-placeholder{width:100%}}
+@media(max-width:480px){.village-content{padding-top:42px}.village-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.village-stats article{padding:16px}.feature-grid,.business-grid,.official-grid,.official-grid-compact,.contact-mini-grid{grid-template-columns:1fr}.business-counts{gap:7px}.business-counts>div{padding:13px 6px}.business-counts strong{font-size:22px}.legacy-card{padding:19px}.legacy-card dl{grid-template-columns:1fr 1fr}.contact-panel{padding:24px}.quick-nav-inner a{font-size:12px;padding:7px 10px}}
