@@ -575,3 +575,44 @@ body{background:#fffdfa;color:var(--dg-ink)}
   .about-map-image{height:225px;min-height:225px;flex:0 0 auto}
   .about-simple-copy .about-place{font-size:20px;margin-bottom:16px}
 }
+
+
+/* Hero and typography polish — taller visual opening with a soft curved base */
+body{font-family:'Poppins','Hind Vadodara',sans-serif;letter-spacing:.05px}
+.village-hero{
+  min-height:560px;
+  isolation:isolate;
+  border-radius:0 0 48% 4% / 0 0 7% 7%;
+}
+.village-hero>img{object-position:center 48%}
+.village-hero-shade{
+  background:linear-gradient(90deg,rgba(5,35,27,.78) 0%,rgba(5,35,27,.38) 58%,rgba(5,35,27,.12) 100%);
+}
+.village-hero-content{padding-top:82px;padding-bottom:104px}
+.village-hero h1{
+  max-width:820px;
+  font-size:clamp(44px,6.2vw,76px);
+  font-weight:800;
+  line-height:1.16;
+  letter-spacing:-1.4px;
+  text-wrap:balance;
+}
+.village-hero-content>p:last-child{
+  max-width:700px;
+  font-size:clamp(16px,1.5vw,19px);
+  line-height:1.9;
+  letter-spacing:.1px;
+}
+.village-tag{font-family:'Poppins','Hind Vadodara',sans-serif;font-weight:600;letter-spacing:.15px}
+.village-content{padding-top:58px}
+.village-section{scroll-margin-top:28px}
+.content-heading{font-weight:800;letter-spacing:-.35px}
+.section-lead,.about-simple-copy,.feature-card p,.info-card p{letter-spacing:.08px}
+@media(max-width:700px){
+  .village-hero{min-height:475px;border-radius:0 0 42% 3% / 0 0 4% 4%}
+  .village-hero-content{padding-top:66px;padding-bottom:88px}
+  .village-hero h1{font-size:clamp(38px,10vw,54px);line-height:1.2;letter-spacing:-.7px}
+  .village-hero-content>p:last-child{font-size:15px;line-height:1.8}
+  .village-content{padding-top:42px}
+}
+@media(prefers-reduced-motion:reduce){.village-hero{scroll-behavior:auto}}
