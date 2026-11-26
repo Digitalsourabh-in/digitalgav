@@ -66,3 +66,34 @@
 @media(max-width:900px){.culture-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.official-grid-compact{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:700px){.legacy-grid{grid-template-columns:1fr}.official-grid{grid-template-columns:1fr 1fr}.contact-panel{align-items:flex-start;flex-direction:column}}
 @media(max-width:460px){.culture-grid,.official-grid,.official-grid-compact{grid-template-columns:1fr}.legacy-card{padding:20px}.legacy-card dl{grid-template-columns:1fr 1fr}.contact-panel{padding:24px}}
+
+
+/* Health, education and local business modules — reusable across village pages */
+.service-contact{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:22px 0}
+.service-contact>div,.info-card,.business-grid article{padding:22px;border:1px solid var(--line);border-radius:14px;background:#fff}
+.service-contact span,.info-eyebrow{font-size:12px;color:var(--green);font-weight:700}
+.service-contact h3,.info-card h3,.business-grid h3{font-size:18px;margin:8px 0}
+.service-contact p,.info-card p,.business-grid p{font-size:14px;color:var(--muted);line-height:1.65}
+.service-contact a,.business-grid a{color:var(--green);font-weight:700;text-decoration:none}
+.education-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.info-card h4{font-size:14px;margin:18px 0 5px}
+.mini-facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:18px 0}
+.mini-facts>div{background:#f4f8f5;border-radius:8px;padding:12px}
+.mini-facts b,.mini-facts small{display:block}
+.mini-facts b{font-size:19px;color:var(--green-dark)}
+.mini-facts small{font-size:12px;color:var(--muted)}
+.highlight-strip{margin-top:18px;padding:20px 22px;background:var(--mint);border-radius:12px}
+.highlight-strip strong{color:var(--green-dark)}
+.highlight-strip p{margin:7px 0 0;color:var(--muted);font-size:14px;line-height:1.7}
+.business-counts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:22px 0}
+.business-counts>div{text-align:center;padding:18px;background:var(--mint);border-radius:12px}
+.business-counts strong,.business-counts span{display:block}
+.business-counts strong{font-size:27px;color:var(--green-dark)}
+.business-counts span{font-size:13px;color:var(--muted)}
+.business-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.business-grid article>span{font-size:12px;color:var(--green);font-weight:700}
+.business-grid h3{font-size:16px}
+.business-grid p{margin:5px 0}
+@media(max-width:850px){.business-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.service-contact{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.education-grid,.service-contact{grid-template-columns:1fr}.business-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:390px){.business-grid,.business-counts{grid-template-columns:1fr}}
