@@ -416,3 +416,66 @@ body{background:#fffdfa;color:var(--dg-ink)}
   .contact-panel{grid-template-columns:1fr;gap:24px;padding:26px}
   .contact-location-card{width:100%}
 }
+
+
+/* About section refresh: village map panel + story, reusable across village pages */
+.about-map-layout{
+  display:grid;
+  grid-template-columns:minmax(300px,.92fr) minmax(0,1.08fr);
+  gap:clamp(28px,4vw,46px);
+  align-items:center;
+}
+.village-map-card{
+  min-width:0;padding:24px 22px 20px;background:#fff;border:1px solid #f5d7c2;
+  border-radius:22px;box-shadow:0 5px 20px rgba(170,91,35,.12);text-align:center;
+}
+.map-card-heading{display:flex;justify-content:center;align-items:center;gap:13px;margin-bottom:14px;text-align:left}
+.map-card-icon{display:grid;place-items:center;width:52px;height:52px;flex:0 0 52px;border-radius:50%;background:#ff6900;color:#fff;font-size:25px}
+.map-card-heading h2{font-size:23px;line-height:1.2;margin:0;color:#172f27}
+.map-card-heading p{font-size:13px;color:#7b817d;margin:4px 0 0}
+.village-map-preview{
+  display:block;width:min(100%,360px);height:265px;margin:0 auto 16px;padding:7px;
+  border:1px solid #d6d6d6;border-radius:12px;background:#fff;overflow:hidden;
+}
+.village-map-preview img{display:block;width:100%;height:100%;object-fit:contain}
+.map-download-button{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  max-width:100%;padding:12px 18px;border-radius:7px;background:#123bff;color:#fff;
+  text-decoration:none;font-size:14px;font-weight:700;line-height:1.45;
+}
+.map-download-button:hover{background:#092ac7}
+.map-facts{
+  display:grid;grid-template-columns:1fr 1fr;gap:15px 20px;margin:20px auto 0;
+  max-width:520px;padding:16px 20px;background:#ffe5d5;border:1px solid #e6c7b5;border-radius:18px;text-align:left;
+}
+.map-facts>div{display:flex;align-items:center;gap:12px;min-width:0}
+.map-fact-icon{display:grid;place-items:center;width:42px;height:42px;flex:0 0 42px;border-radius:50%;color:#fff;font-size:19px}
+.map-fact-icon.orange{background:#ff6900}.map-fact-icon.pink{background:#ed00c8}.map-fact-icon.blue{background:#152cff}.map-fact-icon.green{background:#07834f}
+.map-facts p{margin:0;min-width:0}.map-facts strong,.map-facts small{display:block}.map-facts strong{font-size:16px;color:#171717}.map-facts small{font-size:13px;color:#65716b;margin-top:3px}
+.map-source-note{margin:12px 0 0;color:#8a8178;font-size:10px;line-height:1.5}
+.about-main-copy{min-width:0;color:#53645b;font-size:16px;line-height:1.9}
+.about-main-copy .section-kicker{display:inline-block;padding:5px 12px;border-radius:30px;background:#ff6900;color:#fff;letter-spacing:1.4px;font-weight:800}
+.about-title{font-size:clamp(34px,4vw,52px);color:#f47700;margin:20px 0 0}
+.about-title-rule{width:210px;margin:3px 0 18px;border-bottom:4px solid #bd00f5;color:#56616b;text-align:center;line-height:0;font-size:20px}
+.about-location-line{font-weight:700;color:#17251f;margin:0 0 20px}
+.about-main-copy>p:not(.about-location-line){margin:0 0 18px}
+.about-mission{color:#08734f;font-weight:800}
+.about-values-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:22px}
+.about-values-grid article{min-width:0;padding:16px 12px;border:1px solid #e6e0d8;border-radius:14px;background:#fff;box-shadow:0 3px 10px rgba(0,0,0,.12);text-align:center}
+.about-values-grid article>span{display:grid;place-items:center;width:40px;height:40px;margin:0 auto 10px;border-radius:50%;background:#ff6900;color:#fff;font-size:20px}
+.about-values-grid article:nth-child(2)>span{background:#0b8752}
+.about-values-grid article:nth-child(3)>span{background:#e600c8}
+.about-values-grid article:nth-child(4)>span{background:#152cff}
+.about-values-grid h3{font-size:15px;line-height:1.35;margin:0 0 7px;color:#17251f}
+.about-values-grid p{font-size:12px;line-height:1.55;color:#7c746d;margin:0}
+@media(max-width:900px){
+ .about-map-layout{grid-template-columns:1fr 1fr;gap:22px}
+ .about-values-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:680px){
+ .about-map-layout{grid-template-columns:1fr}
+ .village-map-card{max-width:520px;width:100%;margin:0 auto}
+ .about-title{font-size:34px}
+ .about-values-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .village-map-preview{height:235px}
+}
