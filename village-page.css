@@ -529,3 +529,49 @@ body{background:#fffdfa;color:var(--dg-ink)}
   .about-map-image{height:225px;flex:0 0 auto}
   .about-simple-copy{height:auto}
 }
+
+
+/* About section: balanced two-column height and stronger location heading */
+.about-simple-layout{
+  display:grid;
+  grid-template-columns:minmax(280px,.82fr) minmax(0,1.18fr);
+  align-items:stretch;
+}
+.about-map-card,
+.about-simple-copy{
+  min-height:100%;
+  height:100%;
+  box-sizing:border-box;
+}
+.about-map-card{
+  display:flex;
+  flex-direction:column;
+}
+.about-map-image{
+  flex:1 1 auto;
+  min-height:225px;
+}
+.about-map-meta{margin-top:18px}
+.about-simple-copy{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-self:stretch;
+}
+.about-simple-copy .about-place{
+  font-size:clamp(20px,2vw,25px);
+  font-weight:800;
+  line-height:1.45;
+  color:#183b2d;
+  margin-bottom:24px;
+}
+.about-simple-copy .about-place svg{
+  width:24px;
+  height:24px;
+}
+@media(max-width:760px){
+  .about-simple-layout{grid-template-columns:1fr;align-items:initial}
+  .about-map-card,.about-simple-copy{height:auto;min-height:0}
+  .about-map-image{height:225px;min-height:225px;flex:0 0 auto}
+  .about-simple-copy .about-place{font-size:20px;margin-bottom:16px}
+}
