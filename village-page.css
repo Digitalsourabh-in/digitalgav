@@ -514,3 +514,18 @@ body{background:#fffdfa;color:var(--dg-ink)}
 .about-simple-values p{margin:1px 0 0;color:#87928b;font-size:12px;line-height:1.45}
 @media(max-width:760px){.about-simple-layout{grid-template-columns:1fr}.about-map-card{max-width:520px;width:100%;margin:auto}.about-simple-heading{margin-bottom:20px}}
 @media(max-width:420px){.about-map-card{padding:15px}.about-map-meta{gap:10px;padding:12px}.about-simple-values{gap:8px}.about-simple-values article{padding:10px;gap:9px}.about-value-icon{width:36px;height:36px;flex-basis:36px}}
+
+
+/* About section alignment: map panel and village introduction share equal height */
+.about-simple-layout{align-items:stretch}
+.about-map-card{height:100%;box-sizing:border-box;display:flex;flex-direction:column}
+.about-map-image{flex:1 1 auto;min-height:225px;height:auto}
+.about-map-link{align-self:center;flex:0 0 auto}
+.about-map-meta{width:100%;box-sizing:border-box;flex:0 0 auto}
+.about-simple-copy{height:100%;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center}
+@media(max-width:760px){
+  .about-simple-layout{align-items:initial}
+  .about-map-card{height:auto}
+  .about-map-image{height:225px;flex:0 0 auto}
+  .about-simple-copy{height:auto}
+}
