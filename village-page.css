@@ -623,3 +623,28 @@ body{font-family:'Poppins','Hind Vadodara',sans-serif;letter-spacing:.05px}
   justify-content:flex-start;
   padding-top:0;
 }
+
+
+/* Alternating section backgrounds for a clearer visual rhythm */
+.village-content>.village-section:not(.contact-panel){
+  padding:34px;
+  border-radius:20px;
+  margin-bottom:34px;
+  box-sizing:border-box;
+}
+.village-content>.village-section:nth-of-type(odd):not(.contact-panel){
+  background:#f1f7f3;
+}
+.village-content>.village-section:nth-of-type(even):not(.contact-panel){
+  background:#fff3e8;
+}
+.village-content>.village-section.about-section{
+  background:#f1f7f3;
+}
+@media(max-width:700px){
+  .village-content>.village-section:not(.contact-panel){
+    padding:22px 17px;
+    border-radius:16px;
+    margin-bottom:24px;
+  }
+}
