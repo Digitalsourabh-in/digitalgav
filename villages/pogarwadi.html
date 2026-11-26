@@ -208,4 +208,23 @@
 </main>
 <footer class="site-footer"><div class="container footer-inner"><div><a class="brand footer-brand" href="../index.html"><span class="brand-mark">DG</span><span>Digital <strong>Gav</strong></span></a><p>प्रत्येक गावाची डिजिटल ओळख!</p></div><div class="credit">Designed &amp; Developed by<br><a href="https://digitalsourabh.in/" target="_blank" rel="noopener">DIGITAL SOURABH MARKETING SERVICES</a></div></div><div class="container copyright">© <span id="year"></span> Digital Gav. सर्व हक्क राखीव.</div></footer>
 <script>document.getElementById('year').textContent=new Date().getFullYear();</script>
-</body></html>
+<script>
+(function(){
+ const slider=document.querySelector('.business-slider');
+ const track=slider&&slider.querySelector('.business-track');
+ if(!slider||!track)return;
+ const prev=document.querySelector('.business-prev');
+ const next=document.querySelector('.business-next');
+ const step=()=>{const card=track.querySelector('.business-slide');return card?card.getBoundingClientRect().width+18:300};
+ let timer;
+ const move=(dir)=>slider.scrollBy({left:dir*step(),behavior:'smooth'});
+ prev&&prev.addEventListener('click',()=>move(-1));
+ next&&next.addEventListener('click',()=>move(1));
+ const start=()=>{stop();if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;timer=setInterval(()=>{if(slider.scrollLeft+slider.clientWidth>=slider.scrollWidth-8){slider.scrollTo({left:0,behavior:'smooth'});}else{slider.scrollBy({left:step(),behavior:'smooth'});}},3200);};
+ const stop=()=>{if(timer)clearInterval(timer);};
+ slider.addEventListener('mouseenter',stop);slider.addEventListener('mouseleave',start);
+ slider.addEventListener('focusin',stop);slider.addEventListener('focusout',start);
+ slider.addEventListener('touchstart',stop,{passive:true});slider.addEventListener('touchend',start,{passive:true});
+ start();
+})();
+</script>\n</body></html>
