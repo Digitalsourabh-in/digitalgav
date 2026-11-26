@@ -193,3 +193,80 @@ html{scroll-behavior:smooth;scroll-padding-top:88px}
 @media(max-width:900px){.feature-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.business-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.official-grid-compact{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:700px){.village-hero{min-height:400px}.about-layout,.village-details{grid-template-columns:1fr}.about-photo{min-height:190px}.education-grid,.legacy-grid{grid-template-columns:1fr}.contact-mini-grid{grid-template-columns:1fr 1fr}.contact-panel{align-items:flex-start;flex-direction:column}.contact-placeholder{width:100%}}
 @media(max-width:480px){.village-content{padding-top:42px}.village-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.village-stats article{padding:16px}.feature-grid,.business-grid,.official-grid,.official-grid-compact,.contact-mini-grid{grid-template-columns:1fr}.business-counts{gap:7px}.business-counts>div{padding:13px 6px}.business-counts strong{font-size:22px}.legacy-card{padding:19px}.legacy-card dl{grid-template-columns:1fr 1fr}.contact-panel{padding:24px}.quick-nav-inner a{font-size:12px;padding:7px 10px}}
+
+
+/* Visual refresh inspired by the reference village website:
+   warm canvas, saffron accents, image-led sections and lively cards. */
+:root{
+  --dg-orange:#f47721;
+  --dg-orange-deep:#e85f13;
+  --dg-cream:#fffaf3;
+  --dg-ink:#24342d;
+}
+body{background:#fffdfa;color:var(--dg-ink)}
+.site-header{background:#fff;box-shadow:0 2px 14px rgba(40,34,20,.07)}
+.brand-mark{box-shadow:0 3px 9px rgba(8,91,70,.18)}
+.village-hero{min-height:520px;background:#253c2f}
+.village-hero>img{filter:saturate(1.12) contrast(1.03)}
+.village-hero-shade{background:linear-gradient(90deg,rgba(20,28,19,.78),rgba(20,28,19,.32) 62%,rgba(20,28,19,.12)),linear-gradient(0deg,rgba(20,28,19,.2),transparent 45%)}
+.village-hero h1{text-shadow:0 3px 18px rgba(0,0,0,.24);font-weight:700}
+.village-tag{background:rgba(255,255,255,.17);backdrop-filter:blur(8px);border-color:#ffffff75}
+.village-hero .button{background:var(--dg-orange);border-color:var(--dg-orange);color:#fff;border-radius:8px;font-weight:700;box-shadow:0 5px 16px #0002}
+.village-quick-nav{border-bottom:2px solid #f4e7d9}
+.quick-nav-inner a{background:#fff5e9;color:#91430f;border:1px solid #f7dfc7}
+.quick-nav-inner a:hover,.quick-nav-inner a:focus{background:var(--dg-orange);border-color:var(--dg-orange);color:#fff}
+.village-content{max-width:1160px;padding-top:58px}
+.village-section{margin:0 0 76px;padding:0 0 8px}
+.section-kicker{color:var(--dg-orange-deep);font-size:10px;letter-spacing:1.8px}
+.content-heading{color:#263a30;font-weight:700}
+.section-lead{color:#6e786f}
+.section-heading-row{margin-bottom:12px}
+.heading-symbol{background:#fff0df;color:var(--dg-orange)}
+.village-stats article,.feature-card,.info-card,.legacy-card,.official-grid article,.business-grid article,.contact-mini-grid article{
+  border:1px solid #f0e4d8;border-radius:16px;box-shadow:0 4px 15px rgba(74,49,26,.045);transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease
+}
+.village-stats article:hover,.feature-card:hover,.info-card:hover,.legacy-card:hover,.official-grid article:hover,.business-grid article:hover{
+  transform:translateY(-4px);box-shadow:0 13px 28px rgba(74,49,26,.10);border-color:#f2c49c
+}
+.village-stats article>span,.feature-card>span{display:inline-grid;place-items:center;width:42px;height:42px;border-radius:13px;background:#fff2e4}
+.village-stats strong{color:#08785b}
+.feature-card{position:relative;overflow:hidden;padding:24px 21px}
+.feature-card:before{content:"";position:absolute;top:0;left:0;width:100%;height:3px;background:linear-gradient(90deg,var(--dg-orange),#ffbf65)}
+.feature-card h3{color:#263a30}
+.info-card,.legacy-card{background:linear-gradient(180deg,#fff 0%,#fffdfa 100%)}
+.info-eyebrow{display:inline-block;padding:5px 9px;border-radius:30px;background:#fff0df;color:#b94d0d}
+.mini-facts>div{background:#f8f5ed;border:1px solid #eee7d9}
+.mini-facts b{color:#176c52}
+.legacy-card{border-top:3px solid var(--dg-orange)}
+.legacy-icon{display:inline-grid;place-items:center;width:48px;height:48px;border-radius:15px;background:#fff0df}
+.legacy-card dl div{background:#f8f5ed}
+.official-grid article{border-top:3px solid #f3a14f}
+.official-grid article>span{color:var(--dg-orange-deep)}
+.official-grid a,.business-grid a{display:inline-block;margin-top:8px;padding:6px 11px;border-radius:30px;background:#fff0df;color:#a8490c}
+.business-counts>div{background:linear-gradient(135deg,#fff0df,#fff8ee);border:1px solid #f4dfca}
+.business-counts strong{color:#d95b16}
+.business-grid article{position:relative;overflow:hidden}
+.business-grid article>span{display:inline-block;padding:5px 8px;background:#f0f7f2;border-radius:30px;color:#176c52}
+.photo-placeholder{background:linear-gradient(135deg,#fff3e5,#f4f7ec);border:1px dashed #e7b98f;color:#9a4b19;border-radius:18px}
+.photo-placeholder small{color:#8c7967}
+.data-note{background:#fff6eb;border-left-color:var(--dg-orange);color:#756657}
+.placeholder-note{background:#fff9ef;border-left-color:#e7a14b}
+.contact-panel{background:linear-gradient(120deg,#075b46,#0b7659);box-shadow:0 12px 28px rgba(7,91,70,.16)}
+.contact-panel .section-kicker{color:#ffc18b}
+.contact-placeholder{background:#ffffff0d;border-color:#ffffff60}
+.template-note{color:#9a8878}
+.site-footer{background:#172e27}
+.footer-brand{color:#fff}
+@media(max-width:700px){
+ .village-hero{min-height:430px}
+ .village-hero-content{padding-top:48px;padding-bottom:42px}
+ .village-content{padding-top:42px}
+ .village-section{margin-bottom:58px}
+ .section-lead{font-size:14px}
+ .feature-card{padding:19px 16px}
+}
+@media(max-width:420px){
+ .village-hero h1{font-size:36px}
+ .village-quick-nav .container{padding-left:12px;padding-right:12px}
+ .village-stats article{border-radius:13px}
+}
