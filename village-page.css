@@ -616,3 +616,10 @@ body{font-family:'Poppins','Hind Vadodara',sans-serif;letter-spacing:.05px}
   .village-content{padding-top:42px}
 }
 @media(prefers-reduced-motion:reduce){.village-hero{scroll-behavior:auto}}
+
+
+/* Align the village history copy with the top of the map card */
+.about-simple-copy{
+  justify-content:flex-start;
+  padding-top:0;
+}
