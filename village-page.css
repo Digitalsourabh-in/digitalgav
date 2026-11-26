@@ -108,7 +108,7 @@ html{scroll-behavior:smooth;scroll-padding-top:88px}
 .quick-nav-inner a{flex:0 0 auto;text-decoration:none;color:var(--green-dark);font-size:13px;font-weight:600;padding:8px 12px;border-radius:30px;background:#f1f7f3;transition:.2s}
 .quick-nav-inner a:hover{background:var(--green-dark);color:#fff}
 .village-content{max-width:1120px}
-.village-section{margin:0 0:78px;scroll-margin-top:85px}
+.village-section{margin:0 0 78px;scroll-margin-top:85px}
 .village-section[id]{scroll-margin-top:85px}
 .section-kicker{font-size:10px;letter-spacing:1.7px;font-weight:700;color:var(--green);text-transform:uppercase}
 .content-heading{font-size:clamp(27px,3vw,36px);line-height:1.25;margin:8px 0 12px;color:#17392f}
