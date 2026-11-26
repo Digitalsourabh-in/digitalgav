@@ -371,3 +371,48 @@ body{background:#fffdfa;color:var(--dg-ink)}
 .business-location{background:#fff;color:#087653;border:1px solid #087653}
 .business-location:hover{background:#eaf5ef;transform:translateY(-1px)}
 @media(max-width:600px){.business-call,.business-location{padding:9px 11px;font-size:12px}}
+
+
+/* Redesigned contact/location section — responsive and reusable */
+.contact-panel{
+  display:grid;
+  grid-template-columns:minmax(0,1.45fr) minmax(280px,.8fr);
+  align-items:center;
+  gap:clamp(24px,5vw,64px);
+  padding:clamp(26px,5vw,58px);
+  min-width:0;
+  overflow:hidden;
+  border-radius:24px;
+  background:linear-gradient(120deg,#075c48 0%,#08765a 58%,#0b8064 100%);
+  box-shadow:0 18px 42px rgba(5,83,62,.14);
+}
+.contact-copy{min-width:0}
+.contact-panel .section-kicker{display:inline-block;color:#ffd29b;font-size:11px;letter-spacing:2px;font-weight:800}
+.contact-panel h2{margin:12px 0 14px;font-size:clamp(27px,4vw,46px);line-height:1.25;overflow-wrap:anywhere}
+.contact-panel p{margin:0;color:#d8eee5;line-height:1.85;font-size:clamp(14px,1.6vw,18px)}
+.contact-location-card{
+  min-width:0;
+  padding:clamp(22px,3vw,34px);
+  border:1px solid rgba(255,255,255,.28);
+  border-radius:20px;
+  background:rgba(255,255,255,.09);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+}
+.contact-pin{font-size:34px;line-height:1;margin-bottom:16px}
+.contact-card-label{color:#c5e8d9;font-size:12px;font-weight:700;letter-spacing:1px}
+.contact-location-card strong{font-size:clamp(19px,2.2vw,25px);color:#fff;margin:8px 0 3px}
+.contact-location-card p{font-size:14px;color:#d8eee5;line-height:1.6}
+.contact-map-button{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  margin-top:22px;padding:12px 20px;border-radius:10px;
+  background:#fff;color:#08664e;text-decoration:none;font-size:14px;font-weight:800;
+  transition:transform .2s ease,background .2s ease;
+}
+.contact-map-button:hover{transform:translateY(-2px);background:#fff2df}
+@media(max-width:760px){
+  .contact-panel{grid-template-columns:1fr;gap:24px;padding:26px}
+  .contact-location-card{width:100%}
+}
