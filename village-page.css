@@ -361,3 +361,13 @@ body{background:#fffdfa;color:var(--dg-ink)}
  .business-slide{width:235px;flex-basis:235px}
 }
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.business-slider{scroll-behavior:auto}}
+
+
+/* Business directory: temporary call number + map actions */
+.business-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:auto}
+.business-call,.business-location{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:39px;padding:9px 13px;border-radius:9px;font-size:13px;font-weight:700;text-decoration:none;transition:background .2s ease,transform .2s ease}
+.business-call{background:#087653;color:#fff}
+.business-call:hover{background:#f47721;transform:translateY(-1px)}
+.business-location{background:#fff;color:#087653;border:1px solid #087653}
+.business-location:hover{background:#eaf5ef;transform:translateY(-1px)}
+@media(max-width:600px){.business-call,.business-location{padding:9px 11px;font-size:12px}}
