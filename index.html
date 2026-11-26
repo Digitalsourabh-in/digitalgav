@@ -28,136 +28,39 @@
   <meta name="twitter:description" content="गावांची माहिती, इतिहास, संस्कृती, सुविधा आणि महत्त्वाचे संपर्क — एका विनामूल्य डिजिटल व्यासपीठावर.">
   <meta name="twitter:image" content="https://digitalgav.pages.dev/assets/images/hero-village.webp">
 
-  <!-- Structured data for search engines -->
+  <!-- Structured data: Organization and website -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "Digital Gav",
-    "alternateName": "डिजिटल गाव",
-    "url": "https://digitalgav.pages.dev/",
-    "inLanguage": "mr-IN",
-    "description": "गावांची माहिती, इतिहास, संस्कृती, सुविधा आणि महत्त्वाचे संपर्क उपलब्ध करून देणारे विनामूल्य डिजिटल व्यासपीठ.",
-    "publisher": {
-      "@type": "Organization",
-      "name": "Digital Sourabh Marketing Services",
-      "url": "https://digitalsourabh.in/"
-    }
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://digitalgav.pages.dev/#organization",
+        "name": "Digital Sourabh Marketing Services",
+        "url": "https://digitalsourabh.in/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://digitalgav.pages.dev/assets/images/play%20store%20logo.png"
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://digitalgav.pages.dev/#website",
+        "name": "Digital Gav",
+        "alternateName": "डिजिटल गाव",
+        "url": "https://digitalgav.pages.dev/",
+        "inLanguage": "mr-IN",
+        "description": "गावांची माहिती, इतिहास, संस्कृती, सुविधा आणि महत्त्वाचे संपर्क उपलब्ध करून देणारे विनामूल्य डिजिटल व्यासपीठ.",
+        "publisher": {
+          "@id": "https://digitalgav.pages.dev/#organization"
+        }
+      }
+    ]
   }
   </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Hind+Vadodara:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <header class="site-header">
-    <nav class="nav container" aria-label="मुख्य मेनू">
-      <a class="brand" href="#" aria-label="Digital Gav मुख्यपृष्ठ">
-        <span class="brand-mark">DG</span>
-        <span>Digital <strong>Gav</strong></span>
-      </a>
-      <button class="menu-toggle" id="menuToggle" aria-label="मेनू उघडा" aria-expanded="false">☰</button>
-      <div class="nav-links" id="navLinks">
-        <a href="#about">आमच्याबद्दल</a>
-        <a href="#villages">गावे</a>
-        <a href="#features">वैशिष्ट्ये</a>
-        <a href="#contact" class="nav-cta">संपर्क करा</a>
-      </div>
-    </nav>
-  </header>
-
-  <main>
-    <section class="hero">
-      <div class="hero-glow"></div>
-      <div class="container hero-content">
-        <span class="eyebrow">गावासाठी एक डिजिटल पाऊल</span>
-        <h1>प्रत्येक गावाची<br><span>डिजिटल ओळख!</span></h1>
-        <p>आपल्या गावाचा इतिहास, संस्कृती, सुविधा, महत्त्वाची ठिकाणे आणि संपर्क माहिती — आता एका डिजिटल व्यासपीठावर.</p>
-        <div class="hero-actions">
-          <a class="button button-primary" href="#villages">गावे पहा <span>↗</span></a>
-          <a class="button button-outline" href="#about">अधिक जाणून घ्या</a>
-        </div>
-        <div class="hero-note"><span class="pulse"></span> गावांच्या डिजिटल माहितीसाठी एक विनामूल्य उपक्रम</div>
-      </div>
-      <div class="hero-decoration" aria-hidden="true">
-        <div class="sun"></div><div class="hill hill-one"></div><div class="hill hill-two"></div>
-        <div class="house house-one"></div><div class="house house-two"></div>
-      </div>
-    </section>
-
-    <section class="intro section container" id="about">
-      <div class="section-kicker">DIGITAL VILLAGE INITIATIVE</div>
-      <div class="intro-grid">
-        <h2>आपले गाव.<br><span>आपली ओळख.</span></h2>
-        <div>
-          <p class="lead">प्रत्येक गावाकडे सांगण्यासारखी एक गोष्ट असते. त्या गावाचा इतिहास, परंपरा, माणसे आणि प्रगती जगासमोर आणण्यासाठी Digital Gav हा उपक्रम सुरू केला आहे.</p>
-          <p>या व्यासपीठावर गावांची मूलभूत माहिती एका सोप्या, आकर्षक आणि मोबाईल-अनुकूल वेबसाइटद्वारे उपलब्ध करून दिली जाईल.</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="villages-section section" id="villages">
-      <div class="container">
-        <div class="section-heading">
-          <div><div class="section-kicker">EXPLORE OUR VILLAGES</div><h2>डिजिटल गावे</h2></div>
-          <p>आपल्या गावाची माहिती शोधा आणि आपल्या गावाला डिजिटल ओळख द्या.</p>
-        </div>
-        <div class="search-wrap">
-          <span aria-hidden="true">⌕</span>
-          <input id="villageSearch" type="search" placeholder="गावाचे नाव शोधा..." aria-label="गावाचे नाव शोधा">
-        </div>
-        <div class="village-grid" id="villageGrid">
-          <article class="village-card" data-name="पोगरवाडी pogarwadi">
-            <div class="card-art">
-              <img class="village-image" src="assets/images/pogarwadi.jpg" alt="पोगरवाडी गावाचे दृश्य" loading="lazy">
-              <span class="card-pin">महाराष्ट्र</span>
-            </div>
-            <div class="card-body"><span class="card-label">गावाची डिजिटल ओळख</span><h3>पोगरवाडी</h3><p>गावाची माहिती आणि महत्त्वाचे तपशील येथे लवकरच उपलब्ध होतील.</p><span class="coming-soon">माहिती लवकरच उपलब्ध</span></div>
-          </article>
-          <article class="village-card" data-name="कोलवडी kolwadi">
-            <div class="card-art">
-              <img class="village-image" src="assets/images/Kolwadi.jpg" alt="कोलवडी गावाचे दृश्य" loading="lazy">
-              <span class="card-pin">महाराष्ट्र</span>
-            </div>
-            <div class="card-body"><span class="card-label">गावाची डिजिटल ओळख</span><h3>कोलवडी</h3><p>गावाचा इतिहास, सुविधा आणि स्थानिक माहिती येथे लवकरच उपलब्ध होतील.</p><span class="coming-soon">माहिती लवकरच उपलब्ध</span></div>
-          </article>
-          <article class="add-card">
-            <div class="add-icon">＋</div><h3>आपले गाव जोडा</h3><p>आपल्या गावाची मोफत डिजिटल वेबसाइट सुरू करण्यासाठी संपर्क साधा.</p><a href="#contact">आमच्याशी संपर्क करा ↗</a>
-          </article>
-        </div>
-        <p class="no-results" id="noResults" hidden>या नावाचे गाव सापडले नाही.</p>
-      </div>
-    </section>
-
-    <section class="features section container" id="features">
-      <div class="section-heading">
-        <div><div class="section-kicker">WHAT YOU WILL FIND</div><h2>एका पानावर गावाची माहिती</h2></div>
-        <p>प्रत्येक गावासाठी स्वच्छ, सोपी आणि मोबाईलवर सहज वापरता येणारी वेबसाइट.</p>
-      </div>
-      <div class="feature-grid">
-        <div class="feature"><span>📍</span><h3>गावाची ओळख</h3><p>गावाची माहिती, स्थान आणि थोडक्यात परिचय.</p></div>
-        <div class="feature"><span>📖</span><h3>इतिहास व संस्कृती</h3><p>गावाचा इतिहास, परंपरा आणि सांस्कृतिक वारसा.</p></div>
-        <div class="feature"><span>🏫</span><h3>सुविधा व ठिकाणे</h3><p>शाळा, आरोग्य सुविधा आणि महत्त्वाची ठिकाणे.</p></div>
-        <div class="feature"><span>☎️</span><h3>महत्त्वाचे संपर्क</h3><p>उपयुक्त संपर्क क्रमांक आणि आवश्यक माहिती.</p></div>
-      </div>
-    </section>
-
-    <section class="contact-section" id="contact">
-      <div class="container contact-inner">
-        <div><div class="section-kicker">LET'S DIGITIZE YOUR VILLAGE</div><h2>आपल्या गावाला<br>डिजिटल ओळख देऊया!</h2><p>आपल्या गावासाठी विनामूल्य वेबसाइट सुरू करण्याबद्दल चर्चा करण्यासाठी संपर्क साधा.</p></div>
-        <a class="button button-light" href="https://digitalsourabh.in/" target="_blank" rel="noopener">Digital Sourabh शी संपर्क करा ↗</a>
-      </div>
-    </section>
-  </main>
-
-  <footer class="site-footer" id="footer">
-    <div class="container footer-inner">
-      <div><a class="brand footer-brand" href="#"><span class="brand-mark">DG</span><span>Digital <strong>Gav</strong></span></a><p>प्रत्येक गावाची डिजिटल ओळख!</p></div>
-      <div class="credit">Designed &amp; Developed by<br><a href="https://digitalsourabh.in/" target="_blank" rel="noopener">DIGITAL SOURABH MARKETING SERVICES</a></div>
-    </div>
-    <div class="container copyright">© <span id="year"></span> Digital Gav. सर्व हक्क राखीव.</div>
-  </footer>
-  <script src="script.js"></script>
-</body>
-</html>
