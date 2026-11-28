@@ -1,9 +1,13 @@
-/* Digital Gav: load verified, published Pogarwadi content from Supabase.
-   Draft content is never exposed on the public website. */
+/* Digital Gav: apply only approved/published Pogarwadi content to the existing page sections.
+   The permanent hero heading/subheading and section headings remain part of the website design. */
 (async function () {
   const client = window.digitalGavSupabase;
-  const hero = document.querySelector('.village-hero');
-  if (!client || !hero) return;
+  if (!client) return;
+
+  const putText = (selector, value) => {
+    if (value === undefined || value === null || String(value).trim() === '') return;
+    document.querySelectorAll(selector).forEach(node => { node.textContent = String(value); });
+  };
 
   try {
     const { data: village, error: villageError } = await client
@@ -27,69 +31,25 @@
     if (!page || !page.content) return;
 
     const content = page.content;
-    const section = document.createElement('section');
-    section.className = 'container dg-live-village-data';
-    section.setAttribute('aria-label', 'पोगरवाडीची अद्ययावत माहिती');
-
-    const heading = document.createElement('div');
-    heading.className = 'dg-live-heading';
-    const eyebrow = document.createElement('span');
-    eyebrow.textContent = 'SUPABASE PUBLISHED CONTENT';
-    const title = document.createElement('h2');
-    title.textContent = content.title || village.name || 'पोगरवाडी';
-    heading.append(eyebrow, title);
-    section.append(heading);
-
-    if (content.subtitle) {
-      const subtitle = document.createElement('p');
-      subtitle.className = 'dg-live-subtitle';
-      subtitle.textContent = content.subtitle;
-      section.append(subtitle);
-    }
-    if (content.introduction) {
-      const intro = document.createElement('p');
-      intro.className = 'dg-live-intro';
-      intro.textContent = content.introduction;
-      section.append(intro);
-    }
-
-    const facts = [];
-    const location = content.location || {};
+    const about = content.about || {};
     const stats = content.statistics || {};
     const facilities = content.facilities || {};
-    const addFact = (label, value) => {
-      if (value !== undefined && value !== null && String(value).trim() !== '') {
-        facts.push([label, String(value)]);
-      }
-    };
-    addFact('लोकसंख्या', stats.population);
-    addFact('एकूण घरे', stats.houses);
-    addFact('साक्षरता दर', stats.literacy_rate);
-    addFact('क्षेत्रफळ', stats.area);
-    addFact('शाळा', facilities.schools);
-    addFact('आरोग्य केंद्रे', facilities.health_centres);
-    addFact('तालुका', location.taluka || village.taluka);
-    addFact('जिल्हा', location.district || village.district);
-    addFact('LGD कोड', location.lgd_code);
+    const location = content.location || {};
 
-    if (facts.length) {
-      const grid = document.createElement('div');
-      grid.className = 'dg-live-facts';
-      facts.forEach(([label, value]) => {
-        const card = document.createElement('article');
-        const strong = document.createElement('strong');
-        const small = document.createElement('span');
-        strong.textContent = value;
-        small.textContent = label;
-        card.append(strong, small);
-        grid.append(card);
-      });
-      section.append(grid);
-    }
+    const description = about.description || about.introduction || content.introduction;
+    putText('.about-simple-copy > p:not(.about-place)', description);
+    putText('[data-live-fact="lgdCode"]', about.lgdCode || location.lgd_code);
+    putText('[data-live-fact="taluka"]', about.taluka || location.taluka || village.taluka);
+    putText('[data-live-fact="district"]', about.district || location.district || village.district);
+    putText('[data-live-fact="area"]', about.area || stats.area);
 
-    hero.insertAdjacentElement('afterend', section);
+    putText('[data-live-stat="population"]', stats.population);
+    putText('[data-live-stat="houses"]', stats.houses);
+    putText('[data-live-stat="literacy_rate"]', stats.literacy_rate);
+    putText('[data-live-stat="schools"]', facilities.schools);
+    putText('[data-live-stat="health_centres"]', facilities.health_centres);
   } catch (error) {
-    // Keep the existing static page usable if the public Data API is unavailable.
+    // Static page defaults remain visible if Supabase is temporarily unavailable.
     console.warn('Pogarwadi published content could not be loaded:', error.message);
   }
 })();
