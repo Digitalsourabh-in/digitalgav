@@ -95,7 +95,7 @@
   $('loginForm').addEventListener('submit', async (event) => {
     event.preventDefault();
     showMessage(loginMessage, 'लॉगिन तपासत आहे...');
-    const { error } = await client.auth.signInWithPassword({
+    const { data, error } = await client.auth.signInWithPassword({
       email: $('email').value.trim(),
       password: $('password').value
     });
@@ -104,6 +104,11 @@
       return;
     }
     $('password').value = '';
+    try {
+      await loadDashboard(data.user);
+    } catch (dashboardError) {
+      showMessage(loginMessage, dashboardError.message || 'Dashboard लोड झाले नाही.', true);
+    }
   });
 
   $('logoutButton').addEventListener('click', async () => {
@@ -160,27 +165,12 @@
     $('draftBadge').textContent = 'Draft';
   });
 
-  client.auth.onAuthStateChange((event, session) => {
-    if (event === 'SIGNED_OUT' || !session) {
-      currentUser = null;
-      assignedVillage = null;
-      existingPageId = null;
-      showLogin();
-      return;
-    }
-    if (event === 'SIGNED_IN' || event === 'INITIAL_SESSION' || event === 'TOKEN_REFRESHED') {
+  client.auth.getSession().then(({ data: { session } }) => {
+    if (session) {
       loadDashboard(session.user).catch((error) => {
         showMessage(loginMessage, error.message || 'Dashboard लोड झाले नाही.', true);
-        loginPanel.hidden = false;
-        dashboardPanel.hidden = true;
       });
+    } else {
+      showLogin();
     }
-  });
-
-  client.auth.getSession().then(({ data: { session } }) => {
-    if (session) loadDashboard(session.user).catch((error) => {
-      showMessage(loginMessage, error.message || 'Dashboard लोड झाले नाही.', true);
-    });
-    else showLogin();
-  });
-})();
+  });;
