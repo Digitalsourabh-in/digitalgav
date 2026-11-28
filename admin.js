@@ -132,6 +132,8 @@
       content.gramPanchayat.otherOfficials=(content.gramPanchayat.otherOfficials||[]).slice(0,8);
       while(content.gramPanchayat.keyOfficials.length<4)content.gramPanchayat.keyOfficials.push({name:'',phone:''});
       while(content.gramPanchayat.additionalOfficials.length<8)content.gramPanchayat.additionalOfficials.push({designation:'',name:'',phone:''});
+      content.gramPanchayat.otherOfficials=(content.gramPanchayat.otherOfficials||[]).slice(0,8);
+      while(content.gramPanchayat.otherOfficials.length<8)content.gramPanchayat.otherOfficials.push({designation:'',name:'',phone:''});
       const heroFile = heroFileInput?.files?.[0];
       if (heroFile) {
         const extension = heroFile.type === 'image/png' ? 'png' : heroFile.type === 'image/webp' ? 'webp' : 'jpg';
