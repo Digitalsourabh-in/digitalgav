@@ -78,8 +78,8 @@
     const content=clone(originalContent);
     document.querySelectorAll('[data-path]').forEach(input=>setPath(content,input.dataset.path,input.value.trim()));
     // Keep legacy fields in sync so the existing public page can continue reading its current keys.
-    content.title=content.hero?.title || content.title || assignedVillage.name+' गाव';
-    content.subtitle=content.hero?.subtitle || content.subtitle || '';
+    // Hero heading and subtitle are fixed site-wide copy; admins do not edit them.
+    if (content.hero) { delete content.hero.title; delete content.hero.subtitle; }
     content.introduction=content.about?.introduction || '';
     content.history=content.about?.history || '';
     content.statistics=content.statistics || {};
