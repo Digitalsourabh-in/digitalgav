@@ -57,3 +57,5 @@
 .save-toast.visible{opacity:1;transform:translateY(0)}
 .save-toast.error{background:#a32626}
 button:disabled{opacity:.7;cursor:wait}
+
+.hero-image-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:10px}.button-danger{background:#fff0ee;color:#b42318;border:1px solid #f3c5bf}.button-danger:hover{background:#ffe2de}
