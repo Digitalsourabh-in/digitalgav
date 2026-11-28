@@ -30,3 +30,9 @@
 /* One simple paragraph field for village introduction and history */
 .about-description-input{display:block;width:100%;min-height:190px;padding:14px 15px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--text);font:inherit;line-height:1.7;resize:vertical;outline-offset:2px}
 .about-description-input:focus{border-color:var(--green)}
+
+/* Five village statistics fields: clear desktop row, responsive on smaller screens */
+.statistics-editor-fields{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;}
+.statistics-editor-fields .field{min-width:0;margin:0;}
+@media(max-width:1050px){.statistics-editor-fields{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:650px){.statistics-editor-fields{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}}
