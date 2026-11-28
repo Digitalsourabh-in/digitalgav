@@ -20,7 +20,7 @@
     const {data:page,error:pageError}=await db.from('village_pages').select('content,updated_at').eq('village_id',village.id).eq('is_published',true).maybeSingle();
     if(pageError)throw pageError;
     if(!page?.content)throw new Error('प्रकाशित वेबसाइट माहिती उपलब्ध नाही.');
-    const c=page.content||{},about=c.about||{},stats=c.statistics||{},facilities=c.facilities||{},gram=c.gramPanchayat||{},education=c.education||{},health=c.health||{},culture=c.cultureTourism||{},pride=c.villagePride||{},contact=c.contact||{};
+    const c=page.content||{},about=c.about||{},stats=c.statistics||{},facilities=c.facilities||{},gram=window.POGARWADI_GOVERNANCE||{keyOfficials:[],additionalOfficials:[],otherOfficials:[]},education=c.education||{},health=c.health||{},culture=c.cultureTourism||{},pride=c.villagePride||{},contact=c.contact||{};
     const hero=document.querySelector('.village-hero'),heroImage=hero?.querySelector(':scope > img');
     if(heroImage&&clean(c.hero?.image)){heroImage.src=clean(c.hero.image);heroImage.alt=village.name+' गावाचे दृश्य';heroImage.hidden=false;hero.style.background='';hide(hero.querySelector('.village-hero-shade'),false);}
     else if(heroImage){heroImage.hidden=true;hero.style.background='linear-gradient(135deg,#0b6b53,#17392f)';hide(hero.querySelector('.village-hero-shade'));}
