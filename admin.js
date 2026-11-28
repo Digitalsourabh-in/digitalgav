@@ -127,11 +127,11 @@
       content.facilities.schools=content.facilities.schools??'';
       content.facilities.health_centres=content.facilities.health_centres??'';
       content.gramPanchayat=content.gramPanchayat||{};
-      content.gramPanchayat.keyOfficials=(content.gramPanchayat.keyOfficials||[]).slice(0,4);
-      content.gramPanchayat.additionalOfficials=(content.gramPanchayat.additionalOfficials||[]).slice(0,8);
+      content.gramPanchayat.keyOfficials=(content.gramPanchayat.keyOfficials||[]).slice(0,5);
+      content.gramPanchayat.additionalOfficials=(content.gramPanchayat.additionalOfficials||[]).slice(0,2);
       content.gramPanchayat.otherOfficials=(content.gramPanchayat.otherOfficials||[]).slice(0,8);
-      while(content.gramPanchayat.keyOfficials.length<4)content.gramPanchayat.keyOfficials.push({name:'',phone:''});
-      while(content.gramPanchayat.additionalOfficials.length<8)content.gramPanchayat.additionalOfficials.push({designation:'',name:'',phone:''});
+      while(content.gramPanchayat.keyOfficials.length<5)content.gramPanchayat.keyOfficials.push({name:'',phone:''});
+      while(content.gramPanchayat.additionalOfficials.length<2)content.gramPanchayat.additionalOfficials.push({designation:'सदस्य',name:'',phone:''});
       content.gramPanchayat.otherOfficials=(content.gramPanchayat.otherOfficials||[]).slice(0,8);
       while(content.gramPanchayat.otherOfficials.length<8)content.gramPanchayat.otherOfficials.push({designation:'',name:'',phone:''});
       const heroFile = heroFileInput?.files?.[0];
