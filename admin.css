@@ -25,3 +25,8 @@
 .editor-column-title{font-size:15px;font-weight:700;color:var(--dark);padding-bottom:10px;border-bottom:1px solid var(--line);margin-bottom:4px}
 .editor-column-title span{display:block;font-size:11px;font-weight:500;color:var(--muted)}
 @media(max-width:700px){.about-editor-fields{grid-template-columns:1fr}.about-editor-copy,.about-editor-facts{padding:13px}}
+
+
+/* One simple paragraph field for village introduction and history */
+.about-description-input{display:block;width:100%;min-height:190px;padding:14px 15px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--text);font:inherit;line-height:1.7;resize:vertical;outline-offset:2px}
+.about-description-input:focus{border-color:var(--green)}
