@@ -206,6 +206,7 @@
       const heroFile = heroFileInput?.files?.[0] ? await heroCompressionPromise : null;
       const heroStorage = client.storage.from('digitalgav-village-images');
       const heroCleanupPaths = [];
+      let heroCleanupWarning = false;
       if (heroRemovalRequested && !heroFile) {
         content.hero = content.hero || {};
         content.hero.image = '';
@@ -230,7 +231,7 @@
       originalContent=clone(result.data.content);
       if (heroCleanupPaths.length) {
         const { error: cleanupError } = await heroStorage.remove([...new Set(heroCleanupPaths)]);
-        if (cleanupError) notify('माहिती सेव्ह झाली; पण जुनी image Storage मधून काढता आली नाही. Admin ने Storage policy तपासावी.', true);
+        if (cleanupError) heroCleanupWarning = true;
       }
       heroRemovalRequested = false;
       if (heroFileInput) heroFileInput.value='';
@@ -241,7 +242,7 @@
       $('draftBadge').textContent='Draft';
       const success='तुमची माहिती Draft म्हणून यशस्वीरित्या सेव्ह झाली! सार्वजनिक वेबसाइटवर बदल दिसण्यासाठी Super Admin ची मंजुरी आणि प्रकाशन आवश्यक आहे.';
       showMessage(saveMessage,success);
-      notify('यशस्वी! तुमची माहिती Draft म्हणून सेव्ह झाली. वेबसाइटवर दाखवण्यासाठी Super Admin प्रकाशित करेल.');
+      notify(heroCleanupWarning ? 'माहिती सेव्ह झाली; पण जुनी image Storage मधून काढता आली नाही. Supabase Storage policy तपासा.' : 'यशस्वी! तुमची माहिती Draft म्हणून सेव्ह झाली. वेबसाइटवर दाखवण्यासाठी Super Admin प्रकाशित करेल.', heroCleanupWarning);
       saveMessage.scrollIntoView({behavior:'smooth',block:'center'});
     } catch(err) {
       const failure='माहिती सेव्ह झाली नाही: '+(err.message||'कृपया पुन्हा प्रयत्न करा.');
