@@ -5,6 +5,7 @@
   const db = window.digitalGavSupabase;
   const pageRoot = document.querySelector('.village-content');
   if (!db || !pageRoot) return;
+  pageRoot.style.visibility = 'hidden';
 
   const clean = value => String(value ?? '').trim();
   const lines = value => clean(value).split(/\r?\n/).map(clean).filter(Boolean);
@@ -57,7 +58,7 @@
 
     // Hero: shared heading/subheading stay fixed; only the image is village-managed.
     const heroImage = document.querySelector('.village-hero > img');
-    if (heroImage && clean(c.hero?.image)) heroImage.src = clean(c.hero.image);
+    if (heroImage && clean(c.hero?.image)) { heroImage.src = clean(c.hero.image); heroImage.hidden = false; } else if (heroImage) { heroImage.hidden = true; const hero = heroImage.closest('.village-hero'); if (hero) hero.style.background = 'linear-gradient(135deg,#0b6b53,#17392f)'; const shade = hero?.querySelector('.village-hero-shade'); hide(shade); }
 
     // About and village facts.
     const description = clean(about.description || about.introduction || c.introduction); const descriptionNode = document.querySelector('.about-simple-copy > p:not(.about-place)'); if (descriptionNode) { text(descriptionNode, description); hide(descriptionNode, !description); }
@@ -225,8 +226,12 @@
     if (contactSection) hide(contactSection, !contactValues.some(clean));
 
     document.documentElement.dataset.villageContent = 'loaded';
+    pageRoot.style.visibility = 'visible';
   } catch (error) {
     document.documentElement.dataset.villageContent = 'error';
+    ['about','gram-panchayat','education','health','culture','pride','business','contact'].forEach(id => hide(section(id)));
+    hide(document.querySelector('.village-statistics'));
+    pageRoot.style.visibility = 'visible';
     console.error('Digital Gav: published village content could not be loaded.', error);
     const notice = make('p', 'data-load-notice', 'गावाची प्रकाशित माहिती सध्या लोड होत नाही. कृपया थोड्या वेळाने पुन्हा प्रयत्न करा.');
     pageRoot.prepend(notice);
