@@ -26,7 +26,7 @@
     else if(heroImage){heroImage.hidden=true;hero.style.background='linear-gradient(135deg,#0b6b53,#17392f)';hide(hero.querySelector('.village-hero-shade'));}
     const description=clean(about.description||about.introduction||c.introduction),descriptionNode=document.querySelector('.about-simple-copy > p');
     setText(descriptionNode,description);hide(descriptionNode,!description);
-    const facts=[['lgdCode',c.location?.lgd_code||about.lgdCode],['taluka',about.taluka||c.location?.taluka||village.taluka],['district',about.district||c.location?.district||village.district],['area',about.area||stats.area]];
+    const enteredLgd=clean(about.lgdCode);const resolvedLgd=/^\\d+$/.test(enteredLgd)?enteredLgd:clean(c.location?.lgd_code);\n    const facts=[['lgdCode',resolvedLgd],['taluka',about.taluka||c.location?.taluka||village.taluka],['district',about.district||c.location?.district||village.district],['area',about.area||stats.area]];
     facts.forEach(([key,value])=>{const node=document.querySelector('[data-live-fact="'+key+'"]');setText(node,value);hide(node?.parentElement,!clean(value));});
     hide(document.querySelector('.about-village-facts'),!facts.some(([,value])=>clean(value)));
     const statValues={population:stats.population,houses:stats.houses,literacy_rate:stats.literacy_rate,schools:facilities.schools,health_centres:facilities.health_centres};
@@ -54,7 +54,7 @@
     businessSection?.querySelector('.business-counts')?.remove();setText(businessSection?.querySelector('.content-heading'),village.name+' येथील व्यवसाय');setText(businessSection?.querySelector('.section-lead'),'गावातील व्यवसायांची माहिती.');if(businessSection)hide(businessSection,!businesses.length);
     const contactSection=section('contact'),contactCard=contactSection?.querySelector('.contact-location-card'),contactCopy=contactSection?.querySelector('.contact-copy p'),contactValues=[contact.name,contact.phone,contact.email,contact.address,contact.mapUrl];
     setText(contactCopy,village.name+' गावाच्या संपर्क व स्थानाची माहिती.');
-    if(contactCard){setText(contactCard.querySelector('strong'),contact.name||village.name);setText(contactCard.querySelector('p'),contact.address);const mapButton=contactCard.querySelector('a');if(mapButton){if(clean(contact.mapUrl))mapButton.href=contact.mapUrl;else hide(mapButton);}if(clean(contact.phone)){const call=make('a','contact-map-button','☎ कॉल करा');call.href='tel:'+clean(contact.phone).replace(/[^0-9+]/g,'');contactCard.append(call);}hide(contactCard,!contactValues.some(value=>clean(value)));}
+    if(contactCard){setText(contactCard.querySelector('strong'),contact.name||village.name);setText(contactCard.querySelector('p'),contact.address);const mapButton=contactCard.querySelector('a');if(mapButton){if(clean(contact.mapUrl))mapButton.href=contact.mapUrl;else hide(mapButton);}if(clean(contact.phone)){const call=make('a','contact-map-button','☎ कॉल करा');call.href='tel:'+clean(contact.phone).replace(/[^0-9+]/g,'');contactCard.append(call);}if(clean(contact.email)){const email=make('a','contact-map-button',contact.email);email.href='mailto:'+clean(contact.email);contactCard.append(email);}hide(contactCard,!contactValues.some(value=>clean(value)));}
     if(contactSection)hide(contactSection,!contactValues.some(value=>clean(value)));
     document.documentElement.dataset.villageContent='loaded';root.style.visibility='visible';
   } catch(error) {
