@@ -1,239 +1,64 @@
-/* Digital Gav — public village page renderer.
-   All village-specific content is read from the approved Supabase page record.
-   Design headings and shared portal links remain part of the reusable template. */
+/* Digital Gav — published village page renderer.
+   The HTML/CSS provide the reusable design. Village-specific information is read
+   only from the approved Supabase village_pages record. */
 (async function () {
   const db = window.digitalGavSupabase;
-  const pageRoot = document.querySelector('.village-content');
-  if (!db || !pageRoot) return;
-  pageRoot.style.visibility = 'hidden';
-
+  const root = document.querySelector('.village-content');
+  if (!db || !root) { console.error('Digital Gav: Supabase client or village page root is missing.'); return; }
+  root.style.visibility = 'hidden';
   const clean = value => String(value ?? '').trim();
   const lines = value => clean(value).split(/\r?\n/).map(clean).filter(Boolean);
-  const hide = (node, shouldHide = true) => { if (node) node.hidden = shouldHide; };
-  const text = (node, value) => { if (node) node.textContent = clean(value); };
-  const make = (tag, className, value) => {
-    const node = document.createElement(tag);
-    if (className) node.className = className;
-    if (value !== undefined) node.textContent = clean(value);
-    return node;
-  };
+  const hide = (node, yes = true) => { if (node) node.hidden = yes; };
+  const setText = (node, value) => { if (node) node.textContent = clean(value); };
+  const make = (tag, className, value) => { const node=document.createElement(tag); if(className)node.className=className; if(value!==undefined)node.textContent=clean(value); return node; };
   const section = id => document.getElementById(id);
-  const setText = (selector, value) => {
-    const node = document.querySelector(selector);
-    if (node && clean(value)) node.textContent = clean(value);
-  };
-  const listCards = (container, entries, className = 'info-card') => {
-    if (!container) return;
-    container.replaceChildren();
-    entries.forEach(entry => {
-      if (!clean(entry)) return;
-      container.append(make('article', className, entry));
-    });
-    hide(container, !container.children.length);
-  };
-
   try {
-    const { data: village, error: villageError } = await db.from('villages')
-      .select('id,name,slug,district,taluka,status')
-      .eq('slug', 'pogarwadi').eq('status', 'published').maybeSingle();
-    if (villageError) throw villageError;
-    if (!village) throw new Error('गाव प्रकाशित स्थितीत उपलब्ध नाही.');
-
-    const { data: page, error: pageError } = await db.from('village_pages')
-      .select('content,updated_at').eq('village_id', village.id)
-      .eq('is_published', true).maybeSingle();
-    if (pageError) throw pageError;
-    if (!page?.content) throw new Error('प्रकाशित वेबसाइट माहिती उपलब्ध नाही.');
-
-    const c = page.content || {};
-    const about = c.about || {};
-    const stats = c.statistics || {};
-    const facilities = c.facilities || {};
-    const gram = c.gramPanchayat || {};
-    const education = c.education || {};
-    const health = c.health || {};
-    const culture = c.cultureTourism || {};
-    const pride = c.villagePride || {};
-    const contact = c.contact || {};
-
-    // Hero: shared heading/subheading stay fixed; only the image is village-managed.
-    const heroImage = document.querySelector('.village-hero > img');
-    if (heroImage && clean(c.hero?.image)) { heroImage.src = clean(c.hero.image); heroImage.hidden = false; } else if (heroImage) { heroImage.hidden = true; const hero = heroImage.closest('.village-hero'); if (hero) hero.style.background = 'linear-gradient(135deg,#0b6b53,#17392f)'; const shade = hero?.querySelector('.village-hero-shade'); hide(shade); }
-
-    // About and village facts.
-    const description = clean(about.description || about.introduction || c.introduction); const descriptionNode = document.querySelector('.about-simple-copy > p:not(.about-place)'); if (descriptionNode) { text(descriptionNode, description); hide(descriptionNode, !description); }
-    const facts = [
-      ['lgdCode', c.location?.lgd_code || (/^\\d+$/.test(clean(about.lgdCode)) ? about.lgdCode : '')],
-      ['taluka', about.taluka || c.location?.taluka || village.taluka],
-      ['district', about.district || c.location?.district || village.district],
-      ['area', about.area || stats.area]
-    ];
-    facts.forEach(([key, value]) => {
-      const node = document.querySelector('[data-live-fact="' + key + '"]');
-      if (clean(value)) text(node, value); else hide(node?.parentElement);
-    });
-    const factCard = document.querySelector('.about-village-facts');
-    if (factCard) {
-      const anyFact = facts.some(([,value]) => clean(value));
-      hide(factCard, !anyFact);
-    }
-
-    // Statistics: empty values are removed rather than showing template/demo values.
-    const statValues = {
-      population: stats.population,
-      houses: stats.houses,
-      literacy_rate: stats.literacy_rate,
-      schools: facilities.schools,
-      health_centres: facilities.health_centres
-    };
-    Object.entries(statValues).forEach(([key, value]) => {
-      const node = document.querySelector('[data-live-stat="' + key + '"]');
-      if (clean(value)) text(node, value); else hide(node?.closest('.village-stat-card'));
-    });
-    const statWrap = document.querySelector('.village-statistics');
-    if (statWrap) hide(statWrap, !statWrap.querySelector('.village-stat-card:not([hidden])'));
-
-    // Gram Panchayat: only fully completed entries are published.
-    const gramSection = section('gram-panchayat');
-    const primaryGrid = gramSection?.querySelector(':scope > .official-grid');
-    const headings = gramSection ? [...gramSection.querySelectorAll('.subsection-heading')] : [];
-    const memberGrid = headings[0]?.nextElementSibling;
-    const importantGrid = headings[1]?.nextElementSibling;
-    const createOfficial = (designation, person) => {
-      if (!clean(designation) || !clean(person?.name)) return null;
-      const card = make('article');
-      card.append(make('span', '', designation), make('h3', '', person.name));
-      const phone = clean(person.phone).replace(/[^0-9+]/g, '');
-      if (phone) {
-        const call = make('a', 'official-call-button', '☎ कॉल करा');
-        call.href = 'tel:' + phone;
-        card.append(call);
-      }
-      return card;
-    };
-    if (primaryGrid) {
-      primaryGrid.replaceChildren();
-      ['सरपंच','उपसरपंच','ग्रामसेवक','शिपाई'].forEach((role, i) => {
-        const card = createOfficial(role, (gram.keyOfficials || [])[i]);
-        if (card) primaryGrid.append(card);
-      });
-      hide(primaryGrid, !primaryGrid.children.length);
-    }
-    if (memberGrid) {
-      memberGrid.replaceChildren();
-      (gram.additionalOfficials || []).slice(0,8).forEach(person => {
-        const card = createOfficial(person.designation, person);
-        if (card) memberGrid.append(card);
-      });
-      hide(memberGrid, !memberGrid.children.length);
-      hide(headings[0], !memberGrid.children.length);
-    }
-    // Older content may still have a separate officials list.
-    if (importantGrid) {
-      importantGrid.replaceChildren();
-      (gram.otherOfficials || []).forEach(person => {
-        const card = createOfficial(person.designation, person);
-        if (card) importantGrid.append(card);
-      });
-      hide(importantGrid, !importantGrid.children.length);
-      hide(headings[1], !importantGrid.children.length);
-    }
-    if (gramSection) hide(gramSection, ![primaryGrid,memberGrid,importantGrid].some(n => n && !n.hidden));
-
-    // Education and health: dashboard stores one item per line.
-    const educationSection = section('education');
-    const educationGrid = educationSection?.querySelector('.education-grid');
-    const schools = lines(education.schoolsText || education.schools?.map?.(x => typeof x === 'string' ? x : x.name).join('\n'));
-    listCards(educationGrid, schools, 'info-card school-card');
-    if (educationSection) hide(educationSection, !schools.length);
-
-    const healthSection = section('health');
-    const healthGrid = healthSection?.querySelector('.health-team-grid') || healthSection?.querySelector('.contact-mini-grid');
-    const healthItems = lines(health.servicesText || health.services?.map?.(x => typeof x === 'string' ? x : x.name).join('\n'));
-    listCards(healthGrid, healthItems);
-    if (healthSection) hide(healthSection, !healthItems.length);
-
-    // Culture, places and village pride.
-    const cultureSection = section('culture');
-    if (cultureSection) {
-      const oldCards = [...cultureSection.querySelectorAll('.legacy-card')];
-      oldCards.forEach(card => card.remove());
-      const contentBox = make('div', 'dynamic-text-grid');
-      const traditions = lines(culture.traditionsText || culture.traditions?.join?.('\n'));
-      const places = lines(culture.placesText || culture.places?.join?.('\n'));
-      if (traditions.length) {
-        const card = make('article', 'legacy-card');
-        card.append(make('h3', '', 'संस्कृती आणि परंपरा'));
-        traditions.forEach(item => card.append(make('p', '', item)));
-        contentBox.append(card);
-      }
-      if (places.length) {
-        const card = make('article', 'legacy-card');
-        card.append(make('h3', '', 'मंदिरे व महत्त्वाची ठिकाणे'));
-        places.forEach(item => card.append(make('p', '', item)));
-        contentBox.append(card);
-      }
-      const anchor = cultureSection.querySelector('.section-lead');
-      if (anchor) anchor.insertAdjacentElement('afterend', contentBox);
-      hide(contentBox, !contentBox.children.length);
-      hide(cultureSection, !contentBox.children.length);
-    }
-
-    const prideSection = section('pride');
-    if (prideSection) {
-      const grid = prideSection.querySelector('.legacy-grid');
-      const people = lines(pride.peopleText || pride.people?.map?.(x => typeof x === 'string' ? x : [x.name,x.contribution].filter(Boolean).join(' — ')).join('\n'));
-      listCards(grid, people, 'legacy-card');
-      hide(prideSection, !people.length);
-    }
-
-    // Business directory: show only entries supplied in the dashboard.
-    const businessSection = section('business');
-    const businessGrid = businessSection?.querySelector('.business-track') || businessSection?.querySelector('.business-grid');
-    const businessEntries = lines(c.businessesText || (Array.isArray(c.businesses) ? c.businesses.map(x => typeof x === 'string' ? x : x.name).join('\n') : ''));
-    if (businessGrid) {
-      businessGrid.replaceChildren();
-      businessEntries.forEach(entry => {
-        const card = make('article', 'business-slide');
-        card.append(make('div', 'business-card-body', entry));
-        businessGrid.append(card);
-      });
-      hide(businessGrid, !businessEntries.length);
-    }
-    if (businessSection) hide(businessSection, !businessEntries.length);
-
-    // Contact: only display the card if at least one contact detail is supplied.
-    const contactSection = section('contact');
-    const contactCard = contactSection?.querySelector('.contact-location-card');
-    const contactValues = [contact.name, contact.phone, contact.email, contact.address, contact.mapUrl];
-    if (contactCard) {
-      const nameNode = contactCard.querySelector('strong');
-      const addressNode = contactCard.querySelector('p');
-      const mapButton = contactCard.querySelector('a');
-      text(nameNode, contact.name || village.name);
-      text(addressNode, contact.address);
-      if (clean(contact.phone)) {
-        const call = make('a', 'contact-map-button', '☎ कॉल करा');
-        call.href = 'tel:' + clean(contact.phone).replace(/[^0-9+]/g, '');
-        contactCard.append(call);
-      }
-      if (mapButton) {
-        if (clean(contact.mapUrl)) mapButton.href = contact.mapUrl;
-        else hide(mapButton);
-      }
-      hide(contactCard, !contactValues.some(clean));
-    }
-    if (contactSection) hide(contactSection, !contactValues.some(clean));
-
-    document.documentElement.dataset.villageContent = 'loaded';
-    pageRoot.style.visibility = 'visible';
-  } catch (error) {
-    document.documentElement.dataset.villageContent = 'error';
-    ['about','gram-panchayat','education','health','culture','pride','business','contact'].forEach(id => hide(section(id)));
-    hide(document.querySelector('.village-statistics'));
-    pageRoot.style.visibility = 'visible';
-    console.error('Digital Gav: published village content could not be loaded.', error);
-    const notice = make('p', 'data-load-notice', 'गावाची प्रकाशित माहिती सध्या लोड होत नाही. कृपया थोड्या वेळाने पुन्हा प्रयत्न करा.');
-    pageRoot.prepend(notice);
+    const slug=decodeURIComponent(location.pathname.split('/').pop()||'').replace(/\.html$/,'');
+    const {data:village,error:villageError}=await db.from('villages').select('id,name,slug,district,taluka,status').eq('slug',slug).eq('status','published').maybeSingle();
+    if(villageError)throw villageError;
+    if(!village)throw new Error('हे गाव प्रकाशित स्थितीत उपलब्ध नाही.');
+    const {data:page,error:pageError}=await db.from('village_pages').select('content,updated_at').eq('village_id',village.id).eq('is_published',true).maybeSingle();
+    if(pageError)throw pageError;
+    if(!page?.content)throw new Error('प्रकाशित वेबसाइट माहिती उपलब्ध नाही.');
+    const c=page.content||{},about=c.about||{},stats=c.statistics||{},facilities=c.facilities||{},gram=c.gramPanchayat||{},education=c.education||{},health=c.health||{},culture=c.cultureTourism||{},pride=c.villagePride||{},contact=c.contact||{};
+    const hero=document.querySelector('.village-hero'),heroImage=hero?.querySelector(':scope > img');
+    if(heroImage&&clean(c.hero?.image)){heroImage.src=clean(c.hero.image);heroImage.alt=village.name+' गावाचे दृश्य';heroImage.hidden=false;hero.style.background='';hide(hero.querySelector('.village-hero-shade'),false);}
+    else if(heroImage){heroImage.hidden=true;hero.style.background='linear-gradient(135deg,#0b6b53,#17392f)';hide(hero.querySelector('.village-hero-shade'));}
+    const description=clean(about.description||about.introduction||c.introduction),descriptionNode=document.querySelector('.about-simple-copy > p');
+    setText(descriptionNode,description);hide(descriptionNode,!description);
+    const facts=[['lgdCode',c.location?.lgd_code||about.lgdCode],['taluka',about.taluka||c.location?.taluka||village.taluka],['district',about.district||c.location?.district||village.district],['area',about.area||stats.area]];
+    facts.forEach(([key,value])=>{const node=document.querySelector('[data-live-fact="'+key+'"]');setText(node,value);hide(node?.parentElement,!clean(value));});
+    hide(document.querySelector('.about-village-facts'),!facts.some(([,value])=>clean(value)));
+    const statValues={population:stats.population,houses:stats.houses,literacy_rate:stats.literacy_rate,schools:facilities.schools,health_centres:facilities.health_centres};
+    Object.entries(statValues).forEach(([key,value])=>{const node=document.querySelector('[data-live-stat="'+key+'"]');setText(node,value);hide(node?.closest('.village-stat-card'),!clean(value));});
+    const statWrap=document.querySelector('.village-statistics');hide(statWrap,!statWrap?.querySelector('.village-stat-card:not([hidden])'));
+    const gramSection=section('gram-panchayat'),primaryGrid=gramSection?.querySelector(':scope > .official-grid'),subheads=gramSection?[...gramSection.querySelectorAll('.subsection-heading')]:[],memberGrid=subheads[0]?.nextElementSibling,legacyGrid=subheads[1]?.nextElementSibling;
+    const officialCard=(role,person)=>{if(!clean(role)||!clean(person?.name))return null;const card=make('article');card.append(make('span','',role),make('h3','',person.name));const phone=clean(person.phone).replace(/[^0-9+]/g,'');if(phone){const call=make('a','official-call-button','☎ कॉल करा');call.href='tel:'+phone;card.append(call);}return card;};
+    if(primaryGrid){primaryGrid.replaceChildren();['सरपंच','उपसरपंच','ग्रामसेवक','शिपाई / कर्मचारी'].forEach((role,i)=>{const card=officialCard(role,(gram.keyOfficials||[])[i]);if(card)primaryGrid.append(card);});hide(primaryGrid,!primaryGrid.children.length);}
+    if(memberGrid){memberGrid.replaceChildren();(gram.additionalOfficials||[]).slice(0,8).forEach(person=>{const card=officialCard(person.designation,person);if(card)memberGrid.append(card);});if(subheads[0])setText(subheads[0],'इतर पदाधिकारी व ग्रामपंचायत सदस्य');hide(memberGrid,!memberGrid.children.length);hide(subheads[0],!memberGrid.children.length);}
+    if(legacyGrid){legacyGrid.replaceChildren();(gram.otherOfficials||[]).forEach(person=>{const card=officialCard(person.designation,person);if(card)legacyGrid.append(card);});hide(legacyGrid,!legacyGrid.children.length);hide(subheads[1],!legacyGrid.children.length);}
+    if(gramSection)hide(gramSection,![primaryGrid,memberGrid,legacyGrid].some(node=>node&&!node.hidden));
+    const schools=clean(education.schoolsText||(education.schools||[]).map(item=>typeof item==='string'?item:item.name).join('\n')).split(/\r?\n/).map(clean).filter(Boolean),educationSection=section('education'),educationGrid=educationSection?.querySelector('.education-grid');
+    if(educationGrid){educationGrid.replaceChildren();schools.forEach(name=>{const card=make('article','info-card school-card'),title=make('div','school-title');title.append(make('span','school-icon','🏫'),make('h3','',name));card.append(title);educationGrid.append(card);});hide(educationGrid,!schools.length);}
+    if(educationSection)hide(educationSection,!schools.length);
+    const healthItems=clean(health.servicesText||(health.services||[]).map(item=>typeof item==='string'?item:item.name).join('\n')).split(/\r?\n/).map(clean).filter(Boolean),healthSection=section('health'),healthGrid=healthSection?.querySelector('.health-team-grid')||healthSection?.querySelector('.contact-mini-grid');
+    if(healthGrid){healthGrid.replaceChildren();healthItems.forEach(item=>{const card=make('article','feature-card');card.append(make('p','',item));healthGrid.append(card);});hide(healthGrid,!healthItems.length);}
+    healthSection?.querySelectorAll('.feature-grid').forEach(grid=>{if(grid!==healthGrid)grid.remove();});if(healthSection)hide(healthSection,!healthItems.length);
+    const cultureSection=section('culture');
+    if(cultureSection){cultureSection.querySelectorAll('.feature-grid,.photo-placeholder,.combined-subheading,.dynamic-text-grid').forEach(node=>node.remove());const traditions=clean(culture.traditionsText||(culture.traditions||[]).join('\n')).split(/\r?\n/).map(clean).filter(Boolean),places=clean(culture.placesText||(culture.places||[]).join('\n')).split(/\r?\n/).map(clean).filter(Boolean);const addGroup=(title,entries)=>{if(!entries.length)return;cultureSection.append(make('h3','combined-subheading',title));const grid=make('div','feature-grid');entries.forEach(entry=>{const card=make('article','feature-card');card.append(make('h3','',entry));grid.append(card);});cultureSection.append(grid);};addGroup('संस्कृती आणि परंपरा',traditions);addGroup('पर्यटन व प्रेक्षणीय स्थळे',places);hide(cultureSection,!traditions.length&&!places.length);}
+    const people=clean(pride.peopleText||(pride.people||[]).map(item=>typeof item==='string'?item:[item.name,item.contribution].filter(Boolean).join(' — ')).join('\n')).split(/\r?\n/).map(clean).filter(Boolean),prideSection=section('pride'),prideGrid=prideSection?.querySelector('.legacy-grid');
+    if(prideGrid){prideGrid.replaceChildren();people.forEach(person=>{const card=make('article','legacy-card');card.append(make('h3','',person));prideGrid.append(card);});hide(prideGrid,!people.length);}
+    prideSection?.querySelectorAll('.photo-placeholder').forEach(node=>node.remove());if(prideSection)hide(prideSection,!people.length);
+    const businesses=clean(c.businessesText||(Array.isArray(c.businesses)?c.businesses.map(item=>typeof item==='string'?item:item.name).join('\n'):'')).split(/\r?\n/).map(clean).filter(Boolean),businessSection=section('business'),businessGrid=businessSection?.querySelector('.business-track')||businessSection?.querySelector('.business-grid');
+    if(businessGrid){businessGrid.replaceChildren();businesses.forEach(name=>{const card=make('article','business-slide');card.append(make('div','business-card-body',name));businessGrid.append(card);});hide(businessGrid,!businesses.length);}
+    businessSection?.querySelector('.business-counts')?.remove();setText(businessSection?.querySelector('.content-heading'),village.name+' येथील व्यवसाय');setText(businessSection?.querySelector('.section-lead'),'गावातील व्यवसायांची माहिती.');if(businessSection)hide(businessSection,!businesses.length);
+    const contactSection=section('contact'),contactCard=contactSection?.querySelector('.contact-location-card'),contactCopy=contactSection?.querySelector('.contact-copy p'),contactValues=[contact.name,contact.phone,contact.email,contact.address,contact.mapUrl];
+    setText(contactCopy,village.name+' गावाच्या संपर्क व स्थानाची माहिती.');
+    if(contactCard){setText(contactCard.querySelector('strong'),contact.name||village.name);setText(contactCard.querySelector('p'),contact.address);const mapButton=contactCard.querySelector('a');if(mapButton){if(clean(contact.mapUrl))mapButton.href=contact.mapUrl;else hide(mapButton);}if(clean(contact.phone)){const call=make('a','contact-map-button','☎ कॉल करा');call.href='tel:'+clean(contact.phone).replace(/[^0-9+]/g,'');contactCard.append(call);}hide(contactCard,!contactValues.some(value=>clean(value)));}
+    if(contactSection)hide(contactSection,!contactValues.some(value=>clean(value)));
+    document.documentElement.dataset.villageContent='loaded';root.style.visibility='visible';
+  } catch(error) {
+    document.documentElement.dataset.villageContent='error';console.error('Digital Gav: published village content could not be loaded.',error);root.style.visibility='visible';
+    const notice=make('p','data-load-notice','गावाची प्रकाशित माहिती सध्या लोड होत नाही. कृपया थोड्या वेळाने पुन्हा प्रयत्न करा.');root.prepend(notice);
   }
 })();
