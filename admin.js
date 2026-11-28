@@ -36,8 +36,9 @@
     if(!getPath(content,'statistics.literacy_rate') && oldStats.literacy_rate != null) $('[data-path="statistics.literacy_rate"]').value=oldStats.literacy_rate;
     if(!getPath(content,'facilities.schools') && oldFacilities.schools != null) $('[data-path="facilities.schools"]').value=oldFacilities.schools;
     if(!getPath(content,'facilities.health_centres') && oldFacilities.health_centres != null) $('[data-path="facilities.health_centres"]').value=oldFacilities.health_centres;
-    if(!getPath(content,'about.introduction')) $('[data-path="about.introduction"]').value=content.introduction || '';
-    if(!getPath(content,'about.history')) $('[data-path="about.history"]').value=content.history || '';
+    const savedDescription=getPath(content,'about.description');
+    const legacyDescription=[getPath(content,'about.introduction') || content.introduction,getPath(content,'about.history') || content.history].filter(Boolean).join(' ').replace(/\s+/g,' ').trim();
+    $('[data-path="about.description"]').value=savedDescription || legacyDescription;
   }
   async function loadDashboard(user) {
     currentUser=user;
@@ -80,8 +81,13 @@
     // Keep legacy fields in sync so the existing public page can continue reading its current keys.
     // Hero heading and subtitle are fixed site-wide copy; admins do not edit them.
     if (content.hero) { delete content.hero.title; delete content.hero.subtitle; }
-    content.introduction=content.about?.introduction || '';
-    content.history=content.about?.history || '';
+    const aboutDescription=(content.about?.description || '').replace(/\s+/g,' ').trim();
+    content.about=content.about || {};
+    content.about.description=aboutDescription;
+    content.about.introduction=aboutDescription;
+    content.about.history='';
+    content.introduction=aboutDescription;
+    content.history='';
     content.statistics=content.statistics || {};
     content.statistics.population=content.statistics.population ?? '';
     content.statistics.houses=content.statistics.houses ?? '';
