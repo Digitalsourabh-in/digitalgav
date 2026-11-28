@@ -881,3 +881,43 @@ body{font-family:'Poppins','Hind Vadodara',sans-serif;letter-spacing:.05px}
 .facts-card-heading{margin:0 0 18px;color:#183b2d;font-size:20px;font-weight:700}
 .about-village-facts .about-map-meta{margin-top:0}
 @media(max-width:760px){.about-simple-layout{grid-template-columns:1fr}.about-simple-copy,.about-village-facts{order:initial}.about-village-facts{min-height:0}}
+
+
+/* Five compact village statistics cards inside the About section */
+.village-statistics{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:14px;
+  margin-top:28px;
+}
+.village-stat-card{
+  min-width:0;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:17px 15px;
+  border:1px solid #e3ece5;
+  border-radius:15px;
+  background:#fff;
+  box-shadow:0 5px 16px rgba(24,57,42,.055);
+}
+.village-stat-icon{
+  width:44px;height:44px;flex:0 0 44px;
+  display:grid;place-items:center;
+  border-radius:13px;background:#eaf5ee;font-size:22px;
+}
+.village-stat-card:nth-child(2) .village-stat-icon,.village-stat-card:nth-child(4) .village-stat-icon{background:#fff1e5}
+.village-stat-card:nth-child(3) .village-stat-icon{background:#edf1ff}
+.village-stat-card:nth-child(5) .village-stat-icon{background:#e8f5f4}
+.village-stat-card strong,.village-stat-card div>span{display:block}
+.village-stat-card strong{color:#075b46;font-size:clamp(19px,2vw,25px);font-weight:800;line-height:1.25}
+.village-stat-card div>span{margin-top:3px;color:#697970;font-size:12px;line-height:1.4;font-weight:600}
+@media(max-width:1000px){.village-statistics{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:600px){.village-statistics{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-top:20px}.village-stat-card{padding:12px 10px;gap:9px}.village-stat-icon{width:36px;height:36px;flex-basis:36px;font-size:18px}.village-stat-card strong{font-size:19px}.village-stat-card div>span{font-size:11px}}
+@media(max-width:360px){.village-stat-card{align-items:flex-start;flex-direction:column}}
+
+/* Keep the five editable dashboard values together as one simple grid */
+.statistics-editor-fields{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;}
+.statistics-editor-fields .field{min-width:0;margin:0;}
+@media(max-width:1050px){.statistics-editor-fields{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:650px){.statistics-editor-fields{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}}
