@@ -818,3 +818,36 @@ body{font-family:'Poppins','Hind Vadodara',sans-serif;letter-spacing:.05px}
 .health-team-grid{margin-top:20px;margin-bottom:24px}
 .health-team-grid .official-call-button{margin-top:14px}
 @media(max-width:760px){.health-team-grid{grid-template-columns:1fr}}
+
+/* Keep the health contact action styled as a single, clear call button.
+   The generic contact-card span rule must not split the phone icon onto a new line. */
+.health-team-grid .official-call-button{
+  display:inline-flex;
+  width:fit-content;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  margin-top:12px;
+  padding:9px 16px;
+  border-radius:999px;
+  background:var(--green);
+  color:#fff;
+  font-size:14px;
+  font-weight:700;
+  line-height:1.2;
+  text-decoration:none;
+  white-space:nowrap;
+}
+.health-team-grid .official-call-button span{
+  display:inline-block;
+  font-size:16px;
+  line-height:1;
+  color:inherit;
+}
+.health-team-grid .official-call-button:hover{
+  background:var(--green-dark);
+  color:#fff;
+  text-decoration:none;
+  transform:translateY(-1px);
+  box-shadow:0 5px 14px rgba(0,0,0,.12);
+}
