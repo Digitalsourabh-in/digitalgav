@@ -53,16 +53,65 @@
   }
   const heroFileInput = $('heroImageFile');
   const heroPreview = $('heroImagePreview');
+  let heroCompressionPromise = Promise.resolve(null);
+
+  // Resize and convert the selected banner to WebP before upload.
+  async function compressHeroImage(file) {
+    if (!['image/jpeg','image/png','image/webp'].includes(file.type)) {
+      throw new Error('कृपया JPG, PNG किंवा WebP फोटो निवडा.');
+    }
+    if (file.size > 20 * 1024 * 1024) {
+      throw new Error('मूळ फोटोचा आकार 20 MB पेक्षा कमी असावा.');
+    }
+
+    const bitmap = await createImageBitmap(file);
+    const maxWidth = 1920;
+    const maxHeight = 1080;
+    const scale = Math.min(1, maxWidth / bitmap.width, maxHeight / bitmap.height);
+    const width = Math.max(1, Math.round(bitmap.width * scale));
+    const height = Math.max(1, Math.round(bitmap.height * scale));
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    const context = canvas.getContext('2d');
+    if (!context) {
+      bitmap.close?.();
+      throw new Error('फोटो प्रक्रिया करता आली नाही. कृपया दुसरा फोटो निवडा.');
+    }
+    context.drawImage(bitmap, 0, 0, width, height);
+    bitmap.close?.();
+
+    const compressedBlob = await new Promise((resolve, reject) => {
+      canvas.toBlob(blob => blob ? resolve(blob) : reject(new Error('फोटो compress करता आला नाही.')), 'image/webp', 0.82);
+    });
+    // Keep the smaller file; WebP preserves transparency for PNG uploads.
+    const finalBlob = compressedBlob.size < file.size ? compressedBlob : file;
+    const finalType = finalBlob.type || file.type;
+    const extension = finalType === 'image/webp' ? 'webp' : finalType === 'image/png' ? 'png' : 'jpg';
+    return new File([finalBlob], 'hero-image.' + extension, {
+      type: finalType,
+      lastModified: Date.now()
+    });
+  }
+
   if (heroFileInput) heroFileInput.addEventListener('change', () => {
     const file = heroFileInput.files && heroFileInput.files[0];
-    if (!file) return;
-    if (!['image/jpeg','image/png','image/webp'].includes(file.type) || file.size > 5 * 1024 * 1024) {
+    if (!file) { heroCompressionPromise = Promise.resolve(null); return; }
+    heroPreview.hidden = true;
+    notify('फोटो compress होत आहे...');
+    heroCompressionPromise = compressHeroImage(file).then(compressed => {
+      heroPreview.src = URL.createObjectURL(compressed);
+      heroPreview.hidden = false;
+      const before = (file.size / 1024 / 1024).toFixed(2);
+      const after = (compressed.size / 1024 / 1024).toFixed(2);
+      notify('फोटो तयार! ' + before + ' MB → ' + after + ' MB');
+      return compressed;
+    }).catch(error => {
       heroFileInput.value = '';
-      notify('कृपया JPG, PNG किंवा WebP फोटो निवडा. कमाल आकार 5 MB आहे.', true);
-      return;
-    }
-    heroPreview.src = URL.createObjectURL(file);
-    heroPreview.hidden = false;
+      heroCompressionPromise = Promise.resolve(null);
+      notify(error.message || 'फोटो compress करता आला नाही.', true);
+      return null;
+    });
   });
   async function loadDashboard(user) {
     currentUser=user;
@@ -135,7 +184,7 @@
       content.gramPanchayat.otherOfficials=content.gramPanchayat.otherOfficials.map((person,i)=>({designation:fixedImportantRoles[i],name:(person.name||'').trim(),phone:(person.phone||'').trim()}));
       content.gramPanchayat.keyOfficials=content.gramPanchayat.keyOfficials.slice(0,4);
       while(content.gramPanchayat.additionalOfficials.length<8)content.gramPanchayat.additionalOfficials.push({designation:'',name:'',phone:''});
-      const heroFile = heroFileInput?.files?.[0];
+      const heroFile = heroFileInput?.files?.[0] ? await heroCompressionPromise : null;
       if (heroFile) {
         const extension = heroFile.type === 'image/png' ? 'png' : heroFile.type === 'image/webp' ? 'webp' : 'jpg';
         const storagePath = assignedVillage.slug + '/hero-image.' + extension;
