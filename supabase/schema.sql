@@ -215,3 +215,58 @@ create policy "Admins insert audit logs"
 -- update public.profiles
 -- set role = 'super_admin', village_id = null, can_publish = true
 -- where id = 'YOUR_AUTH_USER_UUID';
+
+
+-- Village admins can upload, replace and delete only files inside their own village folder.
+-- The first folder in each object path must match the assigned village slug.
+insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+values ('digitalgav-village-images', 'digitalgav-village-images', true, 20971520,
+        array['image/jpeg','image/png','image/webp'])
+on conflict (id) do update
+set public = true,
+    file_size_limit = 20971520,
+    allowed_mime_types = array['image/jpeg','image/png','image/webp'];
+
+drop policy if exists "Village admins upload own village images" on storage.objects;
+create policy "Village admins upload own village images"
+on storage.objects for insert to authenticated
+with check (
+  bucket_id = 'digitalgav-village-images'
+  and exists (
+    select 1 from public.villages v
+    where v.slug = (storage.foldername(name))[1]
+      and public.can_manage_village(v.id)
+  )
+);
+
+drop policy if exists "Village admins update own village images" on storage.objects;
+create policy "Village admins update own village images"
+on storage.objects for update to authenticated
+using (
+  bucket_id = 'digitalgav-village-images'
+  and exists (
+    select 1 from public.villages v
+    where v.slug = (storage.foldername(name))[1]
+      and public.can_manage_village(v.id)
+  )
+)
+with check (
+  bucket_id = 'digitalgav-village-images'
+  and exists (
+    select 1 from public.villages v
+    where v.slug = (storage.foldername(name))[1]
+      and public.can_manage_village(v.id)
+  )
+);
+
+drop policy if exists "Village admins delete own village images" on storage.objects;
+create policy "Village admins delete own village images"
+on storage.objects for delete to authenticated
+using (
+  bucket_id = 'digitalgav-village-images'
+  and exists (
+    select 1 from public.villages v
+    where v.slug = (storage.foldername(name))[1]
+      and public.can_manage_village(v.id)
+  )
+);
