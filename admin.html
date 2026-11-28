@@ -35,8 +35,12 @@
 <div class="field"><label>क्षेत्रफळ</label><input data-path="about.area"></div>
 </div>
 </div></details>
-<details class="edit-section"><summary><span class="section-icon">📊</span><span><strong>गावाची आकडेवारी</strong><small>लोकसंख्या, घरे, शाळा आणि सुविधा</small></span></summary><div class="section-fields">
-<div class="field"><label>लोकसंख्या</label><input data-path="statistics.population"></div><div class="field"><label>एकूण घरे</label><input data-path="statistics.houses"></div><div class="field"><label>साक्षरता दर</label><input data-path="statistics.literacy_rate"></div><div class="field"><label>शाळांची संख्या</label><input data-path="facilities.schools"></div><div class="field"><label>आरोग्य केंद्रांची संख्या</label><input data-path="facilities.health_centres"></div>
+<details class="edit-section"><summary><span class="section-icon">📊</span><span><strong>गावाची आकडेवारी</strong><small>होमपेजच्या पहिल्या विभागात पाच आकडे एका रांगेत दिसतील</small></span></summary><div class="section-fields statistics-editor-fields">
+<div class="field"><label>👥 लोकसंख्या</label><input inputmode="numeric" data-path="statistics.population"></div>
+<div class="field"><label>🏠 एकूण घरे</label><input data-path="statistics.houses"></div>
+<div class="field"><label>🎓 साक्षरता दर</label><input data-path="statistics.literacy_rate"></div>
+<div class="field"><label>🏫 शाळांची संख्या</label><input inputmode="numeric" data-path="facilities.schools"></div>
+<div class="field"><label>🏥 आरोग्य केंद्रांची संख्या</label><input inputmode="numeric" data-path="facilities.health_centres"></div>
 </div></details>
 <details class="edit-section"><summary><span class="section-icon">🏛️</span><span><strong>ग्रामपंचायत</strong><small>पदाधिकारी आणि संपर्क माहिती</small></span></summary><div class="section-fields">
 <div class="field"><label>सरपंचाचे नाव</label><input data-path="gramPanchayat.keyOfficials.0.name"></div><div class="field"><label>सरपंच संपर्क क्रमांक</label><input data-path="gramPanchayat.keyOfficials.0.phone" type="tel"></div><div class="field"><label>उपसरपंचाचे नाव</label><input data-path="gramPanchayat.keyOfficials.1.name"></div><div class="field"><label>उपसरपंच संपर्क क्रमांक</label><input data-path="gramPanchayat.keyOfficials.1.phone" type="tel"></div><div class="field"><label>ग्रामसेवकाचे नाव</label><input data-path="gramPanchayat.keyOfficials.2.name"></div><div class="field"><label>ग्रामसेवक संपर्क क्रमांक</label><input data-path="gramPanchayat.keyOfficials.2.phone" type="tel"></div><div class="field full"><label>इतर सदस्य व पदाधिकारी</label><textarea data-path="gramPanchayat.membersText" rows="3" placeholder="प्रत्येक व्यक्तीचे नाव आणि पद स्वतंत्र ओळीत लिहा."></textarea></div>
