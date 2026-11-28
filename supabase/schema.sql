@@ -227,6 +227,18 @@ set public = true,
     file_size_limit = 20971520,
     allowed_mime_types = array['image/jpeg','image/png','image/webp'];
 
+drop policy if exists "Village admins read own village images" on storage.objects;
+create policy "Village admins read own village images"
+on storage.objects for select to authenticated
+using (
+  bucket_id = 'digitalgav-village-images'
+  and exists (
+    select 1 from public.villages v
+    where v.slug = (storage.foldername(name))[1]
+      and public.can_manage_village(v.id)
+  )
+);
+
 drop policy if exists "Village admins upload own village images" on storage.objects;
 create policy "Village admins upload own village images"
 on storage.objects for insert to authenticated
