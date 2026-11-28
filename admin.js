@@ -6,7 +6,18 @@
   let currentUser = null, assignedVillage = null, existingPageId = null, originalContent = {};
 
   if (!client) { loginMessage.textContent = 'सिस्टम सुरू झाले नाही. पेज refresh करा.'; loginMessage.classList.add('error'); return; }
-  const showMessage = (el, message, error=false) => { el.textContent=message; el.classList.toggle('error',error); };
+  const showMessage = (el, message, error=false) => { if(el){el.textContent=message;el.classList.toggle('error',error);} };
+  function notify(message, error=false) {
+    let toast=document.getElementById('saveToast');
+    if(!toast){
+      toast=document.createElement('div'); toast.id='saveToast'; toast.className='save-toast';
+      toast.setAttribute('role','status'); toast.setAttribute('aria-live','polite');
+      document.body.appendChild(toast);
+    }
+    toast.textContent=message; toast.classList.toggle('error',error); toast.classList.add('visible');
+    clearTimeout(window.digitalGavToastTimer);
+    window.digitalGavToastTimer=setTimeout(()=>toast.classList.remove('visible'),5500);
+  }
   const clone = (obj) => JSON.parse(JSON.stringify(obj || {}));
   const getPath = (obj,path) => path.split('.').reduce((v,k)=>v == null ? undefined : v[k],obj);
   function setPath(obj,path,value) {
@@ -73,44 +84,57 @@
   });
   $('logoutButton').addEventListener('click',async()=>{await client.auth.signOut();currentUser=null;assignedVillage=null;existingPageId=null;originalContent={};showLogin();});
   $('villageForm').addEventListener('submit',async event=>{
-    event.preventDefault(); if(!currentUser || !assignedVillage) return;
-    const buttons=$('villageForm').querySelectorAll('button[type="submit"]'); buttons.forEach(b=>b.disabled=true);
-    showMessage(saveMessage,'माहिती सेव्ह करत आहे...');
-    const content=clone(originalContent);
-    document.querySelectorAll('[data-path]').forEach(input=>setPath(content,input.dataset.path,input.value.trim()));
-    // Keep legacy fields in sync so the existing public page can continue reading its current keys.
-    // Hero heading and subtitle are fixed site-wide copy; admins do not edit them.
-    if (content.hero) { delete content.hero.title; delete content.hero.subtitle; }
-    const aboutDescription=(content.about?.description || '').replace(/\s+/g,' ').trim();
-    content.about=content.about || {};
-    content.about.description=aboutDescription;
-    content.about.introduction=aboutDescription;
-    content.about.history='';
-    content.introduction=aboutDescription;
-    content.history='';
-    content.statistics=content.statistics || {};
-    content.statistics.population=content.statistics.population ?? '';
-    content.statistics.houses=content.statistics.houses ?? '';
-    content.statistics.literacy_rate=content.statistics.literacy_rate ?? '';
-    content.statistics.area=content.about?.area || content.statistics.area || '';
-    content.facilities=content.facilities || {};
-    content.facilities.schools=content.facilities.schools ?? '';
-    content.facilities.health_centres=content.facilities.health_centres ?? '';
-    // Keep only eight optional additional office-bearer/member rows.
-    content.gramPanchayat=content.gramPanchayat || {};
-    content.gramPanchayat.keyOfficials=(content.gramPanchayat.keyOfficials || []).slice(0,4);
-    content.gramPanchayat.additionalOfficials=(content.gramPanchayat.additionalOfficials || []).slice(0,8);
-    while(content.gramPanchayat.keyOfficials.length<4) content.gramPanchayat.keyOfficials.push({name:'',phone:''});
-    while(content.gramPanchayat.additionalOfficials.length<8) content.gramPanchayat.additionalOfficials.push({designation:'',name:'',phone:''});
-    const payload={village_id:assignedVillage.id,content,is_published:false,updated_by:currentUser.id,updated_at:new Date().toISOString()};
-    let result=existingPageId
-      ? await client.from('village_pages').update(payload).eq('id',existingPageId).select('id,content').single()
-      : await client.from('village_pages').insert(payload).select('id,content').single();
-    buttons.forEach(b=>b.disabled=false);
-    if(result.error){showMessage(saveMessage,'सेव्ह करताना त्रुटी: '+result.error.message,true);return;}
-    existingPageId=result.data.id; originalContent=clone(result.data.content);
-    $('draftBadge').textContent='Draft';
-    showMessage(saveMessage,'माहिती Draft म्हणून यशस्वीरित्या सेव्ह झाली.');
+    event.preventDefault();
+    if(!currentUser || !assignedVillage) return;
+    const buttons=[...$('villageForm').querySelectorAll('button[type="submit"]')];
+    const originalLabels=buttons.map(b=>b.textContent);
+    buttons.forEach(b=>{b.disabled=true;b.textContent='सेव्ह होत आहे...';});
+    showMessage(saveMessage,'माहिती Draft म्हणून सेव्ह करत आहोत...');
+    notify('तुमची माहिती सेव्ह होत आहे...');
+    try {
+      const content=clone(originalContent);
+      document.querySelectorAll('[data-path]').forEach(input=>setPath(content,input.dataset.path,input.value.trim()));
+      // Hero heading and subtitle are fixed for every village and are not admin-editable.
+      if(content.hero){delete content.hero.title;delete content.hero.subtitle;}
+      const aboutDescription=(content.about?.description||'').replace(/\\s+/g,' ').trim();
+      content.about=content.about||{};
+      content.about.description=aboutDescription;
+      content.about.introduction=aboutDescription;
+      content.about.history='';
+      content.introduction=aboutDescription;
+      content.history='';
+      content.statistics=content.statistics||{};
+      content.statistics.population=content.statistics.population??'';
+      content.statistics.houses=content.statistics.houses??'';
+      content.statistics.literacy_rate=content.statistics.literacy_rate??'';
+      content.statistics.area=content.about.area||content.statistics.area||'';
+      content.facilities=content.facilities||{};
+      content.facilities.schools=content.facilities.schools??'';
+      content.facilities.health_centres=content.facilities.health_centres??'';
+      content.gramPanchayat=content.gramPanchayat||{};
+      content.gramPanchayat.keyOfficials=(content.gramPanchayat.keyOfficials||[]).slice(0,4);
+      content.gramPanchayat.additionalOfficials=(content.gramPanchayat.additionalOfficials||[]).slice(0,8);
+      while(content.gramPanchayat.keyOfficials.length<4)content.gramPanchayat.keyOfficials.push({name:'',phone:''});
+      while(content.gramPanchayat.additionalOfficials.length<8)content.gramPanchayat.additionalOfficials.push({designation:'',name:'',phone:''});
+      const payload={village_id:assignedVillage.id,content,is_published:false,updated_by:currentUser.id,updated_at:new Date().toISOString()};
+      const result=existingPageId
+        ? await client.from('village_pages').update(payload).eq('id',existingPageId).select('id,content').single()
+        : await client.from('village_pages').insert(payload).select('id,content').single();
+      if(result.error) throw result.error;
+      existingPageId=result.data.id;
+      originalContent=clone(result.data.content);
+      $('draftBadge').textContent='Draft';
+      const success='तुमची माहिती Draft म्हणून यशस्वीरित्या सेव्ह झाली! सार्वजनिक वेबसाइटवर बदल दिसण्यासाठी Super Admin ची मंजुरी आणि प्रकाशन आवश्यक आहे.';
+      showMessage(saveMessage,success);
+      notify('यशस्वी! तुमची माहिती Draft म्हणून सेव्ह झाली. वेबसाइटवर दाखवण्यासाठी Super Admin प्रकाशित करेल.');
+      saveMessage.scrollIntoView({behavior:'smooth',block:'center'});
+    } catch(err) {
+      const failure='माहिती सेव्ह झाली नाही: '+(err.message||'कृपया पुन्हा प्रयत्न करा.');
+      showMessage(saveMessage,failure,true);
+      notify(failure,true);
+    } finally {
+      buttons.forEach((b,i)=>{b.disabled=false;b.textContent=originalLabels[i];});
+    }
   });
   client.auth.getSession().then(({data:{session}})=>{
     if(session) loadDashboard(session.user).catch(err=>showMessage(loginMessage,err.message || 'Dashboard लोड झाले नाही.',true));
