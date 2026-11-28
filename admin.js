@@ -96,6 +96,12 @@
     content.facilities=content.facilities || {};
     content.facilities.schools=content.facilities.schools ?? '';
     content.facilities.health_centres=content.facilities.health_centres ?? '';
+    // Keep only eight optional additional office-bearer/member rows.
+    content.gramPanchayat=content.gramPanchayat || {};
+    content.gramPanchayat.keyOfficials=(content.gramPanchayat.keyOfficials || []).slice(0,4);
+    content.gramPanchayat.additionalOfficials=(content.gramPanchayat.additionalOfficials || []).slice(0,8);
+    while(content.gramPanchayat.keyOfficials.length<4) content.gramPanchayat.keyOfficials.push({name:'',phone:''});
+    while(content.gramPanchayat.additionalOfficials.length<8) content.gramPanchayat.additionalOfficials.push({designation:'',name:'',phone:''});
     const payload={village_id:assignedVillage.id,content,is_published:false,updated_by:currentUser.id,updated_at:new Date().toISOString()};
     let result=existingPageId
       ? await client.from('village_pages').update(payload).eq('id',existingPageId).select('id,content').single()
