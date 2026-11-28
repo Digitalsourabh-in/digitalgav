@@ -708,3 +708,52 @@ body{font-family:'Poppins','Hind Vadodara',sans-serif;letter-spacing:.05px}
   .portal-grid{grid-template-columns:1fr;gap:12px}
   .portal-card{padding:18px 16px}
 }
+
+
+/* Strongly scoped layout for the agriculture and government portal section */
+#agriculture-schemes .portal-grid{
+  display:grid !important;
+  grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+  align-items:stretch;
+  gap:16px;
+  margin-top:24px;
+}
+#agriculture-schemes .portal-card{
+  display:flex !important;
+  flex-direction:column;
+  align-items:flex-start;
+  min-width:0;
+  min-height:220px;
+  box-sizing:border-box;
+  padding:22px 19px;
+  border:1px solid #e8e2d8;
+  border-top:3px solid #f47721;
+  border-radius:16px;
+  background:#fff;
+  box-shadow:0 6px 18px rgba(50,40,25,.06);
+}
+#agriculture-schemes .portal-card .portal-icon{display:block;font-size:28px;line-height:1.2;margin:0 0 14px}
+#agriculture-schemes .portal-card h3{font-size:17px;line-height:1.5;margin:0 0 9px;color:#173d2e}
+#agriculture-schemes .portal-card p{font-size:13px;line-height:1.75;margin:0 0 18px;color:#68766e}
+#agriculture-schemes .portal-card a{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  margin-top:auto;
+  padding:10px 14px;
+  border-radius:9px;
+  background:#087653;
+  color:#fff;
+  text-decoration:none;
+  font-size:12px;
+  font-weight:700;
+  line-height:1.45;
+}
+#agriculture-schemes .portal-card a:hover{background:#f47721}
+@media(max-width:950px){
+  #agriculture-schemes .portal-grid{grid-template-columns:repeat(2,minmax(0,1fr)) !important}
+}
+@media(max-width:520px){
+  #agriculture-schemes .portal-grid{grid-template-columns:1fr !important;gap:12px}
+  #agriculture-schemes .portal-card{min-height:0;padding:19px 17px}
+}
