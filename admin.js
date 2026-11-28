@@ -53,7 +53,9 @@
   }
   const heroFileInput = $('heroImageFile');
   const heroPreview = $('heroImagePreview');
-  let heroCompressionPromise = Promise.resolve(null);
+  let heroCompressionPromise = Promise.resolve(null), heroRemovalRequested = false;
+  const removeHeroImageButton = $('removeHeroImageButton');
+  const heroImageStatus = $('heroImageStatus');
 
   // Resize and convert the selected banner to WebP before upload.
   async function compressHeroImage(file) {
@@ -97,6 +99,9 @@
   if (heroFileInput) heroFileInput.addEventListener('change', () => {
     const file = heroFileInput.files && heroFileInput.files[0];
     if (!file) { heroCompressionPromise = Promise.resolve(null); return; }
+    heroRemovalRequested = false;
+    if (removeHeroImageButton) removeHeroImageButton.hidden = true;
+    if (heroImageStatus) heroImageStatus.textContent = 'नवीन फोटो निवडला आहे. सेव्ह केल्यावर तो अपलोड होईल.';
     heroPreview.hidden = true;
     notify('फोटो compress होत आहे...');
     heroCompressionPromise = compressHeroImage(file).then(compressed => {
@@ -113,6 +118,18 @@
       return null;
     });
   });
+  if (removeHeroImageButton) removeHeroImageButton.addEventListener('click', () => {
+    if (!originalContent.hero?.image && !heroFileInput?.files?.length) return;
+    if (!window.confirm('मुख्य बॅनरचा फोटो काढून टाकायचा आहे का? सेव्ह केल्यानंतर तो वेबसाइटवर दिसणार नाही.')) return;
+    heroRemovalRequested = true;
+    if (heroFileInput) heroFileInput.value = '';
+    heroCompressionPromise = Promise.resolve(null);
+    if (heroPreview) { heroPreview.removeAttribute('src'); heroPreview.hidden = true; }
+    removeHeroImageButton.hidden = true;
+    if (heroImageStatus) heroImageStatus.textContent = 'फोटो काढण्याची विनंती केली आहे. बदल कायम करण्यासाठी “बदल सेव्ह करा” क्लिक करा.';
+    notify('फोटो काढण्यासाठी बदल सेव्ह करा.');
+  });
+
   async function loadDashboard(user) {
     currentUser=user;
     const {data:profile,error:profileError}=await client.from('profiles').select('id,full_name,role,village_id,can_publish').eq('id',user.id).single();
@@ -135,6 +152,8 @@
     originalContent=clone(page ? page.content : {});
     setEditorValues(originalContent);
     if (heroPreview && originalContent.hero?.image) { heroPreview.src=originalContent.hero.image; heroPreview.hidden=false; }
+    if (removeHeroImageButton) removeHeroImageButton.hidden = !originalContent.hero?.image;
+    if (heroImageStatus) heroImageStatus.textContent = originalContent.hero?.image ? 'सध्याचा फोटो वेबसाइटवर वापरात आहे.' : 'सध्या कोणताही बॅनर फोटो नाही.';
 
     $('draftBadge').textContent=page && page.is_published?'प्रकाशित':'Draft';
   }
@@ -185,12 +204,20 @@
       content.gramPanchayat.keyOfficials=content.gramPanchayat.keyOfficials.slice(0,4);
       while(content.gramPanchayat.additionalOfficials.length<8)content.gramPanchayat.additionalOfficials.push({designation:'',name:'',phone:''});
       const heroFile = heroFileInput?.files?.[0] ? await heroCompressionPromise : null;
+      const heroStorage = client.storage.from('digitalgav-village-images');
+      const heroCleanupPaths = [];
+      if (heroRemovalRequested && !heroFile) {
+        content.hero = content.hero || {};
+        content.hero.image = '';
+        ['webp','png','jpg','jpeg'].forEach(ext => heroCleanupPaths.push(assignedVillage.slug + '/hero-image.' + ext));
+      }
       if (heroFile) {
         const extension = heroFile.type === 'image/png' ? 'png' : heroFile.type === 'image/webp' ? 'webp' : 'jpg';
         const storagePath = assignedVillage.slug + '/hero-image.' + extension;
-        const { error: uploadError } = await client.storage.from('digitalgav-village-images').upload(storagePath, heroFile, { upsert: true, contentType: heroFile.type, cacheControl: '3600' });
+        const { error: uploadError } = await heroStorage.upload(storagePath, heroFile, { upsert: true, contentType: heroFile.type, cacheControl: '3600' });
         if (uploadError) throw uploadError;
-        const { data: publicUrl } = client.storage.from('digitalgav-village-images').getPublicUrl(storagePath);
+        const { data: publicUrl } = heroStorage.getPublicUrl(storagePath);
+        ['webp','png','jpg','jpeg'].forEach(ext => { const oldPath=assignedVillage.slug + '/hero-image.' + ext; if(oldPath!==storagePath) heroCleanupPaths.push(oldPath); });
         content.hero = content.hero || {};
         content.hero.image = publicUrl.publicUrl;
       }
@@ -201,7 +228,16 @@
       if(result.error) throw result.error;
       existingPageId=result.data.id;
       originalContent=clone(result.data.content);
+      if (heroCleanupPaths.length) {
+        const { error: cleanupError } = await heroStorage.remove([...new Set(heroCleanupPaths)]);
+        if (cleanupError) notify('माहिती सेव्ह झाली; पण जुनी image Storage मधून काढता आली नाही. Admin ने Storage policy तपासावी.', true);
+      }
+      heroRemovalRequested = false;
       if (heroFileInput) heroFileInput.value='';
+      if (heroPreview && originalContent.hero?.image) { heroPreview.src=originalContent.hero.image; heroPreview.hidden=false; }
+      else if (heroPreview) { heroPreview.removeAttribute('src'); heroPreview.hidden=true; }
+      if (removeHeroImageButton) removeHeroImageButton.hidden = !originalContent.hero?.image;
+      if (heroImageStatus) heroImageStatus.textContent = originalContent.hero?.image ? 'सध्याचा फोटो वेबसाइटवर वापरात आहे.' : 'सध्या कोणताही बॅनर फोटो नाही.';
       $('draftBadge').textContent='Draft';
       const success='तुमची माहिती Draft म्हणून यशस्वीरित्या सेव्ह झाली! सार्वजनिक वेबसाइटवर बदल दिसण्यासाठी Super Admin ची मंजुरी आणि प्रकाशन आवश्यक आहे.';
       showMessage(saveMessage,success);
