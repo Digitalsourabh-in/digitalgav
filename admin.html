@@ -1,67 +1,48 @@
 <!DOCTYPE html>
 <html lang="mr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="robots" content="noindex, nofollow">
-  <meta name="theme-color" content="#0b6b53">
-  <title>Village Admin | Digital Gav</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Hind+Vadodara:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="admin.css">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#0b6b53">
+<title>गाव व्यवस्थापन | Digital Gav</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Vadodara:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css">
 </head>
 <body>
-  <header class="admin-header">
-    <a class="brand" href="index.html"><span class="brand-mark">DG</span><span>Digital <strong>Gav</strong></span></a>
-    <div class="header-right"><span id="accountEmail"></span><button id="logoutButton" class="button button-quiet" hidden>Logout</button></div>
-  </header>
-
-  <main class="admin-shell">
-    <section id="loginPanel" class="login-card">
-      <div class="section-kicker">VILLAGE ADMIN PORTAL</div>
-      <h1>स्वागत आहे!</h1>
-      <p class="muted">आपल्या गावाची माहिती व्यवस्थापित करण्यासाठी लॉगिन करा.</p>
-      <form id="loginForm">
-        <label for="email">ईमेल</label>
-        <input id="email" type="email" autocomplete="username" required placeholder="name@example.com">
-        <label for="password">पासवर्ड</label>
-        <input id="password" type="password" autocomplete="current-password" required placeholder="आपला पासवर्ड">
-        <button class="button button-primary" type="submit">लॉगिन करा</button>
-      </form>
-      <p id="loginMessage" class="message" role="status"></p>
-    </section>
-
-    <section id="dashboardPanel" hidden>
-      <div class="welcome-row">
-        <div><div class="section-kicker">VILLAGE MANAGEMENT</div><h1 id="villageHeading">गाव व्यवस्थापन</h1><p class="muted" id="villageMeta"></p></div>
-        <span id="draftBadge" class="status-badge">Draft</span>
-      </div>
-      <div class="notice"><strong>टीप:</strong> येथे केलेले बदल सध्या Draft म्हणून सेव्ह होतील. प्रकाशित करण्याचा अधिकार Super Admin कडे आहे.</div>
-      <form id="villageForm" class="editor-card">
-        <div class="form-heading"><div><h2>गावाच्या पानाची माहिती</h2><p class="muted">माहिती भरा आणि बदल सेव्ह करा.</p></div><button class="button button-primary" type="submit">बदल सेव्ह करा</button></div>
-        <div class="form-grid">
-          <div class="field"><label for="pageTitle">पानाचे शीर्षक</label><input id="pageTitle" maxlength="100" placeholder="उदा. आपलं गाव, आपला अभिमान"></div>
-          <div class="field"><label for="tagline">लहान परिचय</label><input id="tagline" maxlength="180" placeholder="गावाची ओळख एका वाक्यात"></div>
-          <div class="field full"><label for="introduction">गावाची माहिती</label><textarea id="introduction" rows="5" maxlength="3000" placeholder="गावाबद्दल माहिती लिहा..."></textarea></div>
-          <div class="field"><label for="population">लोकसंख्या</label><input id="population" maxlength="40" placeholder="उदा. 697"></div>
-          <div class="field"><label for="houses">एकूण घरे</label><input id="houses" maxlength="40" placeholder="उदा. 250+"></div>
-          <div class="field"><label for="schools">शाळा</label><input id="schools" maxlength="40" placeholder="उदा. 3"></div>
-          <div class="field"><label for="health">आरोग्य सुविधा</label><input id="health" maxlength="80" placeholder="उदा. 1 आरोग्य केंद्र"></div>
-          <div class="field"><label for="literacy">साक्षरता दर</label><input id="literacy" maxlength="40" placeholder="उदा. 90%"></div>
-          <div class="field"><label for="area">क्षेत्रफळ</label><input id="area" maxlength="60" placeholder="उदा. 583 एकर"></div>
-          <div class="field"><label for="contactName">संपर्क व्यक्ती</label><input id="contactName" maxlength="100" placeholder="नाव"></div>
-          <div class="field"><label for="contactPhone">संपर्क क्रमांक</label><input id="contactPhone" type="tel" maxlength="20" placeholder="मोबाईल क्रमांक"></div>
-        </div>
-        <div class="form-footer"><p id="saveMessage" class="message" role="status"></p><button class="button button-primary" type="submit">Draft सेव्ह करा</button></div>
-      </form>
-      <div class="preview-row"><span>आपले सार्वजनिक पान</span><a id="publicPageLink" href="index.html" target="_blank" rel="noopener">पान पहा ↗</a></div>
-    </section>
-    <section id="accessDenied" class="login-card" hidden><h1>प्रवेश उपलब्ध नाही</h1><p class="muted">या खात्याला Village Admin प्रवेश किंवा गाव नियुक्त केलेले नाही. कृपया Super Admin शी संपर्क साधा.</p></section>
-  </main>
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="supabase-client.js"></script>
-  <script src="admin.js"></script>
-</body>
-</html>
+<header class="admin-header"><a class="brand" href="index.html"><span class="brand-mark">DG</span><span>Digital <strong>Gav</strong></span></a><div class="header-right"><span id="accountEmail"></span><button id="logoutButton" class="button button-quiet" hidden>बाहेर पडा</button></div></header>
+<main class="admin-shell">
+<section id="loginPanel" class="login-card"><div class="section-kicker">VILLAGE ADMIN PORTAL</div><h1>स्वागत आहे!</h1><p class="muted">आपल्या गावाची माहिती व्यवस्थापित करण्यासाठी लॉगिन करा.</p>
+<form id="loginForm"><label for="email">ईमेल</label><input id="email" type="email" autocomplete="username" required placeholder="name@example.com"><label for="password">पासवर्ड</label><input id="password" type="password" autocomplete="current-password" required placeholder="आपला पासवर्ड"><button class="button button-primary" type="submit">लॉगिन करा</button></form><p id="loginMessage" class="message" role="status"></p></section>
+<section id="dashboardPanel" hidden>
+<div class="welcome-row"><div><div class="section-kicker">VILLAGE MANAGEMENT</div><h1 id="villageHeading">गाव व्यवस्थापन</h1><p class="muted" id="villageMeta"></p></div><span id="draftBadge" class="status-badge">Draft</span></div>
+<div class="notice"><strong>कसे वापरावे?</strong> खालील विभाग उघडा, आवश्यक माहिती बदला आणि शेवटी “बदल सेव्ह करा” दाबा. बदल Draft म्हणून सेव्ह होतील; सार्वजनिक वेबसाइटवर दाखवण्यापूर्वी Super Admin तपासेल.</div>
+<form id="villageForm">
+<section class="editor-card">
+<div class="form-heading"><div><h2>गावाच्या वेबसाइटची माहिती</h2><p class="muted">प्रत्येक विभाग स्वतंत्रपणे उघडून संपादित करा.</p></div><button class="button button-primary" type="submit">बदल सेव्ह करा</button></div>
+<details class="edit-section" open><summary><span class="section-icon">🏞️</span><span><strong>मुख्य बॅनर</strong><small>वेबसाइटवर सर्वात आधी दिसणारी माहिती</small></span></summary><div class="section-fields">
+<div class="field"><label>मुख्य शीर्षक</label><input data-path="hero.title" maxlength="100"></div><div class="field"><label>लहान परिचय</label><input data-path="hero.subtitle" maxlength="220"></div><div class="field full"><label>मुख्य फोटो</label><p class="field-help">फोटो अपलोड/बदलण्याची सुविधा पुढील टप्प्यात जोडत आहोत. सध्या विद्यमान फोटो बदललेला नाही.</p></div>
+</div></details>
+<details class="edit-section"><summary><span class="section-icon">🏡</span><span><strong>गावाबद्दल</strong><small>परिचय, इतिहास आणि गावाची मूलभूत माहिती</small></span></summary><div class="section-fields">
+<div class="field full"><label>गावाचा परिचय</label><textarea data-path="about.introduction" rows="3" maxlength="2000"></textarea></div><div class="field full"><label>गावाचा इतिहास</label><textarea data-path="about.history" rows="3" maxlength="3000"></textarea></div>
+<div class="field"><label>LGD कोड</label><input data-path="about.lgdCode"></div><div class="field"><label>क्षेत्रफळ</label><input data-path="about.area"></div><div class="field"><label>तालुका</label><input data-path="about.taluka"></div><div class="field"><label>जिल्हा</label><input data-path="about.district"></div>
+</div></details>
+<details class="edit-section"><summary><span class="section-icon">📊</span><span><strong>गावाची आकडेवारी</strong><small>लोकसंख्या, घरे, शाळा आणि सुविधा</small></span></summary><div class="section-fields">
+<div class="field"><label>लोकसंख्या</label><input data-path="statistics.population"></div><div class="field"><label>एकूण घरे</label><input data-path="statistics.houses"></div><div class="field"><label>साक्षरता दर</label><input data-path="statistics.literacy_rate"></div><div class="field"><label>शाळांची संख्या</label><input data-path="facilities.schools"></div><div class="field"><label>आरोग्य केंद्रांची संख्या</label><input data-path="facilities.health_centres"></div>
+</div></details>
+<details class="edit-section"><summary><span class="section-icon">🏛️</span><span><strong>ग्रामपंचायत</strong><small>पदाधिकारी आणि संपर्क माहिती</small></span></summary><div class="section-fields">
+<div class="field"><label>सरपंचाचे नाव</label><input data-path="gramPanchayat.keyOfficials.0.name"></div><div class="field"><label>सरपंच संपर्क क्रमांक</label><input data-path="gramPanchayat.keyOfficials.0.phone" type="tel"></div><div class="field"><label>उपसरपंचाचे नाव</label><input data-path="gramPanchayat.keyOfficials.1.name"></div><div class="field"><label>उपसरपंच संपर्क क्रमांक</label><input data-path="gramPanchayat.keyOfficials.1.phone" type="tel"></div><div class="field"><label>ग्रामसेवकाचे नाव</label><input data-path="gramPanchayat.keyOfficials.2.name"></div><div class="field"><label>ग्रामसेवक संपर्क क्रमांक</label><input data-path="gramPanchayat.keyOfficials.2.phone" type="tel"></div><div class="field full"><label>इतर सदस्य व पदाधिकारी</label><textarea data-path="gramPanchayat.membersText" rows="3" placeholder="प्रत्येक व्यक्तीचे नाव आणि पद स्वतंत्र ओळीत लिहा."></textarea></div>
+</div></details>
+<details class="edit-section"><summary><span class="section-icon">🏫</span><span><strong>शिक्षण</strong><small>गावातील शाळा आणि शैक्षणिक सुविधा</small></span></summary><div class="section-fields"><div class="field full"><label>शाळांची माहिती</label><textarea data-path="education.schoolsText" rows="4" placeholder="प्रत्येक शाळेचे नाव स्वतंत्र ओळीत लिहा."></textarea><p class="field-help">शाळांचे फोटो व स्वतंत्र संपर्क तपशील पुढील टप्प्यात जोडू.</p></div></div></details>
+<details class="edit-section"><summary><span class="section-icon">🏥</span><span><strong>आरोग्य</strong><small>आरोग्य केंद्रे आणि उपलब्ध सेवा</small></span></summary><div class="section-fields"><div class="field full"><label>आरोग्य सुविधांची माहिती</label><textarea data-path="health.servicesText" rows="4" placeholder="प्रत्येक सुविधा स्वतंत्र ओळीत लिहा."></textarea></div></div></details>
+<details class="edit-section"><summary><span class="section-icon">🎭</span><span><strong>संस्कृती, परंपरा आणि पर्यटन</strong><small>उत्सव, परंपरा आणि पाहण्यासारखी ठिकाणे</small></span></summary><div class="section-fields"><div class="field full"><label>परंपरा व उत्सव</label><textarea data-path="cultureTourism.traditionsText" rows="3" placeholder="प्रत्येक परंपरा/उत्सव स्वतंत्र ओळीत लिहा."></textarea></div><div class="field full"><label>मंदिरे व महत्त्वाची ठिकाणे</label><textarea data-path="cultureTourism.placesText" rows="3" placeholder="प्रत्येक ठिकाण स्वतंत्र ओळीत लिहा."></textarea></div></div></details>
+<details class="edit-section"><summary><span class="section-icon">🏅</span><span><strong>गावाचा अभिमान</strong><small>गावातील उल्लेखनीय व्यक्ती आणि त्यांचे योगदान</small></span></summary><div class="section-fields"><div class="field full"><label>व्यक्तींची माहिती</label><textarea data-path="villagePride.peopleText" rows="4" placeholder="प्रत्येक व्यक्तीचे नाव आणि योगदान स्वतंत्र ओळीत लिहा."></textarea></div></div></details>
+<details class="edit-section"><summary><span class="section-icon">🏪</span><span><strong>गावातील व्यवसाय</strong><small>स्थानिक दुकाने आणि सेवा</small></span></summary><div class="section-fields"><div class="field full"><label>व्यवसायांची माहिती</label><p class="field-help">व्यवसाय नोंदणी आणि फोटोसह व्यवसाय कार्ड व्यवस्थापन पुढील टप्प्यात जोडले जाईल. सध्या येथे कोणताही विद्यमान व्यवसाय बदलला जात नाही.</p></div></div></details>
+<details class="edit-section"><summary><span class="section-icon">📍</span><span><strong>संपर्क व गावाचे स्थान</strong><small>संपर्क व्यक्ती आणि कार्यालयाची माहिती</small></span></summary><div class="section-fields"><div class="field"><label>संपर्क व्यक्तीचे नाव</label><input data-path="contact.name"></div><div class="field"><label>संपर्क क्रमांक</label><input data-path="contact.phone" type="tel"></div><div class="field"><label>ईमेल</label><input data-path="contact.email" type="email"></div><div class="field"><label>Google Maps लिंक</label><input data-path="contact.mapUrl" type="url" placeholder="https://maps.google.com/..."></div><div class="field full"><label>पत्ता</label><textarea data-path="contact.address" rows="2"></textarea></div></div></details>
+<div class="form-footer"><p id="saveMessage" class="message" role="status"></p><button class="button button-primary" type="submit">बदल सेव्ह करा</button></div>
+</section></form>
+<div class="preview-row"><span>सार्वजनिक वेबसाइट</span><a id="publicPageLink" href="index.html" target="_blank" rel="noopener">पान पहा ↗</a></div>
+</section>
+<section id="accessDenied" class="login-card" hidden><h1>प्रवेश उपलब्ध नाही</h1><p class="muted">या खात्याला Village Admin प्रवेश किंवा गाव नियुक्त केलेले नाही. कृपया Super Admin शी संपर्क साधा.</p></section>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase-client.js"></script><script src="admin.js"></script>
+</body></html>
