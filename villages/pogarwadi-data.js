@@ -26,7 +26,8 @@
     else if(heroImage){heroImage.hidden=true;hero.style.background='linear-gradient(135deg,#0b6b53,#17392f)';hide(hero.querySelector('.village-hero-shade'));}
     const description=clean(about.description||about.introduction||c.introduction),descriptionNode=document.querySelector('.about-simple-copy > p');
     setText(descriptionNode,description);hide(descriptionNode,!description);
-    const enteredLgd=clean(about.lgdCode);const resolvedLgd=/^\\d+$/.test(enteredLgd)?enteredLgd:clean(c.location?.lgd_code);\n    const facts=[['lgdCode',resolvedLgd],['taluka',about.taluka||c.location?.taluka||village.taluka],['district',about.district||c.location?.district||village.district],['area',about.area||stats.area]];
+    const enteredLgd=clean(about.lgdCode);const resolvedLgd=/^\d+$/.test(enteredLgd)?enteredLgd:clean(c.location?.lgd_code);
+    const facts=[['lgdCode',resolvedLgd],['taluka',about.taluka||c.location?.taluka||village.taluka],['district',about.district||c.location?.district||village.district],['area',about.area||stats.area]];
     facts.forEach(([key,value])=>{const node=document.querySelector('[data-live-fact="'+key+'"]');setText(node,value);hide(node?.parentElement,!clean(value));});
     hide(document.querySelector('.about-village-facts'),!facts.some(([,value])=>clean(value)));
     const statValues={population:stats.population,houses:stats.houses,literacy_rate:stats.literacy_rate,schools:facilities.schools,health_centres:facilities.health_centres};
