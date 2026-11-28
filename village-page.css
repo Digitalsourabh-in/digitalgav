@@ -872,3 +872,12 @@ body{font-family:'Poppins','Hind Vadodara',sans-serif;letter-spacing:.05px}
 /* Pogarwadi: compact village facts card after removing the map and download link */
 .about-village-facts{justify-content:center;min-height:0;height:auto;}
 .about-village-facts .about-map-meta{margin-top:0;}
+
+
+/* About section: history on the left, village facts on the right */
+.about-simple-layout{grid-template-columns:minmax(0,1.2fr) minmax(280px,.8fr);align-items:stretch}
+.about-simple-copy{order:1}
+.about-village-facts{order:2;display:flex;flex-direction:column;justify-content:center;text-align:left;min-height:250px}
+.facts-card-heading{margin:0 0 18px;color:#183b2d;font-size:20px;font-weight:700}
+.about-village-facts .about-map-meta{margin-top:0}
+@media(max-width:760px){.about-simple-layout{grid-template-columns:1fr}.about-simple-copy,.about-village-facts{order:initial}.about-village-facts{min-height:0}}
