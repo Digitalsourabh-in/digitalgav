@@ -855,3 +855,16 @@ body{font-family:'Poppins','Hind Vadodara',sans-serif;letter-spacing:.05px}
 /* Combined culture, traditions and tourism section */
 .combined-subheading{font-size:19px;font-weight:800;color:var(--green-dark);margin:26px 0 14px}
 .section-anchor{display:block;position:relative;top:-90px;visibility:hidden}
+
+/* Published village data loaded from Supabase */
+.dg-live-village-data{padding:38px 0 48px;border-bottom:1px solid #e4ebe6}
+.dg-live-heading span{font-size:11px;letter-spacing:1.5px;font-weight:700;color:#0b6b53}
+.dg-live-heading h2{margin:6px 0 12px;font-size:clamp(25px,3vw,34px);color:#17392f}
+.dg-live-subtitle{font-size:17px;font-weight:600;color:#34483d;margin:0 0 10px}
+.dg-live-intro{max-width:850px;color:#64736c;line-height:1.85;margin:0 0 22px}
+.dg-live-facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.dg-live-facts article{padding:16px 18px;border:1px solid #e4ebe6;border-radius:12px;background:#f7faf7}
+.dg-live-facts strong,.dg-live-facts span{display:block}
+.dg-live-facts strong{font-size:22px;color:#064b3d}
+.dg-live-facts span{font-size:13px;color:#64736c}
+@media(max-width:600px){.dg-live-facts{grid-template-columns:repeat(2,minmax(0,1fr))}}
