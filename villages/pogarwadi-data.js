@@ -58,7 +58,7 @@
     if(contactSection)hide(contactSection,!contactValues.some(value=>clean(value)));
     document.documentElement.dataset.villageContent='loaded';root.style.visibility='visible';
   } catch(error) {
-    document.documentElement.dataset.villageContent='error';console.error('Digital Gav: published village content could not be loaded.',error);root.style.visibility='visible';
+    document.documentElement.dataset.villageContent='error';console.error('Digital Gav: published village content could not be loaded.',error);['about','gram-panchayat','education','health','culture','pride','business','contact'].forEach(id=>hide(section(id)));hide(document.querySelector('.village-statistics'));root.style.visibility='visible';
     const notice=make('p','data-load-notice','गावाची प्रकाशित माहिती सध्या लोड होत नाही. कृपया थोड्या वेळाने पुन्हा प्रयत्न करा.');root.prepend(notice);
   }
 })();
