@@ -60,9 +60,9 @@
     if (heroImage && clean(c.hero?.image)) heroImage.src = clean(c.hero.image);
 
     // About and village facts.
-    setText('.about-simple-copy > p:not(.about-place)', about.description || about.introduction || c.introduction);
+    const description = clean(about.description || about.introduction || c.introduction); const descriptionNode = document.querySelector('.about-simple-copy > p:not(.about-place)'); if (descriptionNode) { text(descriptionNode, description); hide(descriptionNode, !description); }
     const facts = [
-      ['lgdCode', about.lgdCode || c.location?.lgd_code],
+      ['lgdCode', c.location?.lgd_code || (/^\\d+$/.test(clean(about.lgdCode)) ? about.lgdCode : '')],
       ['taluka', about.taluka || c.location?.taluka || village.taluka],
       ['district', about.district || c.location?.district || village.district],
       ['area', about.area || stats.area]
@@ -185,6 +185,21 @@
       listCards(grid, people, 'legacy-card');
       hide(prideSection, !people.length);
     }
+
+    // Business directory: show only entries supplied in the dashboard.
+    const businessSection = section('business');
+    const businessGrid = businessSection?.querySelector('.business-track') || businessSection?.querySelector('.business-grid');
+    const businessEntries = lines(c.businessesText || (Array.isArray(c.businesses) ? c.businesses.map(x => typeof x === 'string' ? x : x.name).join('\n') : ''));
+    if (businessGrid) {
+      businessGrid.replaceChildren();
+      businessEntries.forEach(entry => {
+        const card = make('article', 'business-slide');
+        card.append(make('div', 'business-card-body', entry));
+        businessGrid.append(card);
+      });
+      hide(businessGrid, !businessEntries.length);
+    }
+    if (businessSection) hide(businessSection, !businessEntries.length);
 
     // Contact: only display the card if at least one contact detail is supplied.
     const contactSection = section('contact');
