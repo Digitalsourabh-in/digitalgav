@@ -129,6 +129,7 @@
       content.gramPanchayat=content.gramPanchayat||{};
       content.gramPanchayat.keyOfficials=(content.gramPanchayat.keyOfficials||[]).slice(0,4);
       content.gramPanchayat.additionalOfficials=(content.gramPanchayat.additionalOfficials||[]).slice(0,8);
+      content.gramPanchayat.otherOfficials=(content.gramPanchayat.otherOfficials||[]).slice(0,8);
       while(content.gramPanchayat.keyOfficials.length<4)content.gramPanchayat.keyOfficials.push({name:'',phone:''});
       while(content.gramPanchayat.additionalOfficials.length<8)content.gramPanchayat.additionalOfficials.push({designation:'',name:'',phone:''});
       const heroFile = heroFileInput?.files?.[0];
