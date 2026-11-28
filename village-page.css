@@ -757,25 +757,3 @@ body{font-family:'Poppins','Hind Vadodara',sans-serif;letter-spacing:.05px}
   #agriculture-schemes .portal-grid{grid-template-columns:1fr !important;gap:12px}
   #agriculture-schemes .portal-card{min-height:0;padding:19px 17px}
 }
-
-
-/* Education cards inspired by the supplied visual reference */
-.school-card{padding:22px;border-top:3px solid #ff8738;background:#fff}
-.school-title{display:flex;align-items:center;gap:14px;min-height:72px}
-.school-title h3{margin:0;font-size:clamp(17px,1.7vw,22px);line-height:1.4}
-.school-icon{width:62px;height:62px;flex:0 0 62px;display:grid;place-items:center;border-radius:14px;background:#fff4e9;border:1px solid #ffe0c7;font-size:34px}
-.school-card .mini-facts{margin:18px 0 20px;gap:10px}
-.school-card .mini-facts>div{position:relative;min-height:72px;padding:12px 12px 10px 48px;background:#f8f5ed;border:1px solid #eee5d5;border-radius:13px}
-.school-card .mini-facts b{font-size:21px;line-height:1.25}
-.school-card .mini-facts small{font-size:12px;margin-top:3px}
-.fact-icon{position:absolute;left:13px;top:19px;font-size:23px}
-.facilities-heading{display:flex;align-items:center;gap:10px;margin:8px 0 13px;padding:9px 12px;border-radius:30px;background:linear-gradient(90deg,#e4f4e9,#fff5e6);color:#075b43}
-.facilities-heading>span{width:30px;height:30px;display:grid;place-items:center;border-radius:50%;background:#087a50;color:#fff;font-weight:900;font-size:18px}
-.facilities-heading strong{font-size:16px;white-space:nowrap}
-.facilities-heading em{font-style:normal;font-size:12px;font-weight:600;color:#28664e}
-.facility-list{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
-.facility-list>div{min-width:0;min-height:82px;padding:10px 5px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;text-align:center;background:#edf7ef;border:1px solid #e2f0e5;border-radius:12px}
-.facility-list span{font-size:23px;line-height:1}
-.facility-list b{font-size:11px;line-height:1.35;color:#174c3d}
-@media(max-width:700px){.school-card{padding:17px}.facility-list{grid-template-columns:repeat(3,minmax(0,1fr))}.facilities-heading em{font-size:11px}}
-@media(max-width:420px){.school-title{align-items:flex-start}.school-icon{width:48px;height:48px;flex-basis:48px;font-size:27px}.school-card .mini-facts>div{padding-left:40px}.fact-icon{left:10px;font-size:19px}.facilities-heading{gap:7px}.facilities-heading em{display:none}.facility-list{grid-template-columns:repeat(2,minmax(0,1fr))}}
