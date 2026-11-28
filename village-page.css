@@ -803,3 +803,13 @@ body{font-family:'Poppins','Hind Vadodara',sans-serif;letter-spacing:.05px}
 }
 .official-grid article .official-call-button span{font-size:16px;color:inherit}
 .official-grid-compact article a{display:none}
+
+
+/* Four-card layout for important village officials */
+.key-officials-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-top:24px}
+.key-official-card{min-width:0;padding:24px 18px;text-align:center;border:1px solid var(--line);border-radius:16px;background:#fff;box-shadow:0 8px 24px rgba(20,45,35,.07)}
+.key-official-avatar{width:76px;height:76px;margin:0 auto 14px;display:grid;place-items:center;border-radius:18px;background:#f1f7f3;font-size:38px}
+.key-official-card h3{margin:0 0 10px;font-size:17px;line-height:1.5;color:var(--ink)}
+.key-official-card span{display:inline-flex;padding:8px 15px;border-radius:999px;background:#e8f5ed;color:var(--green);font-weight:700;font-size:14px}
+@media(max-width:900px){.key-officials-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:460px){.key-officials-grid{grid-template-columns:1fr}.key-official-card{padding:20px 16px}}
