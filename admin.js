@@ -128,7 +128,7 @@
       content.facilities.health_centres=content.facilities.health_centres??'';
       content.gramPanchayat=content.gramPanchayat||{};
       content.gramPanchayat.keyOfficials=(content.gramPanchayat.keyOfficials||[]).slice(0,5);
-      content.gramPanchayat.additionalOfficials=(content.gramPanchayat.additionalOfficials||[]).slice(0,2);
+      content.gramPanchayat.additionalOfficials=(content.gramPanchayat.additionalOfficials||[]).slice(0,8);
       content.gramPanchayat.otherOfficials=(content.gramPanchayat.otherOfficials||[]).slice(0,8);
       while(content.gramPanchayat.keyOfficials.length<5)content.gramPanchayat.keyOfficials.push({name:'',phone:''});
       while(content.gramPanchayat.additionalOfficials.length<2)content.gramPanchayat.additionalOfficials.push({designation:'सदस्य',name:'',phone:''});
