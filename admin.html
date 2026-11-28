@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0b6b53">
+  <title>Village Admin | Digital Gav</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Vadodara:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <header class="admin-header">
+    <a class="brand" href="index.html"><span class="brand-mark">DG</span><span>Digital <strong>Gav</strong></span></a>
+    <div class="header-right"><span id="accountEmail"></span><button id="logoutButton" class="button button-quiet" hidden>Logout</button></div>
+  </header>
+
+  <main class="admin-shell">
+    <section id="loginPanel" class="login-card">
+      <div class="section-kicker">VILLAGE ADMIN PORTAL</div>
+      <h1>स्वागत आहे!</h1>
+      <p class="muted">आपल्या गावाची माहिती व्यवस्थापित करण्यासाठी लॉगिन करा.</p>
+      <form id="loginForm">
+        <label for="email">ईमेल</label>
+        <input id="email" type="email" autocomplete="username" required placeholder="name@example.com">
+        <label for="password">पासवर्ड</label>
+        <input id="password" type="password" autocomplete="current-password" required placeholder="आपला पासवर्ड">
+        <button class="button button-primary" type="submit">लॉगिन करा</button>
+      </form>
+      <p id="loginMessage" class="message" role="status"></p>
+    </section>
+
+    <section id="dashboardPanel" hidden>
+      <div class="welcome-row">
+        <div><div class="section-kicker">VILLAGE MANAGEMENT</div><h1 id="villageHeading">गाव व्यवस्थापन</h1><p class="muted" id="villageMeta"></p></div>
+        <span id="draftBadge" class="status-badge">Draft</span>
+      </div>
+      <div class="notice"><strong>टीप:</strong> येथे केलेले बदल सध्या Draft म्हणून सेव्ह होतील. प्रकाशित करण्याचा अधिकार Super Admin कडे आहे.</div>
+      <form id="villageForm" class="editor-card">
+        <div class="form-heading"><div><h2>गावाच्या पानाची माहिती</h2><p class="muted">माहिती भरा आणि बदल सेव्ह करा.</p></div><button class="button button-primary" type="submit">बदल सेव्ह करा</button></div>
+        <div class="form-grid">
+          <div class="field"><label for="pageTitle">पानाचे शीर्षक</label><input id="pageTitle" maxlength="100" placeholder="उदा. आपलं गाव, आपला अभिमान"></div>
+          <div class="field"><label for="tagline">लहान परिचय</label><input id="tagline" maxlength="180" placeholder="गावाची ओळख एका वाक्यात"></div>
+          <div class="field full"><label for="introduction">गावाची माहिती</label><textarea id="introduction" rows="5" maxlength="3000" placeholder="गावाबद्दल माहिती लिहा..."></textarea></div>
+          <div class="field"><label for="population">लोकसंख्या</label><input id="population" maxlength="40" placeholder="उदा. 697"></div>
+          <div class="field"><label for="houses">एकूण घरे</label><input id="houses" maxlength="40" placeholder="उदा. 250+"></div>
+          <div class="field"><label for="schools">शाळा</label><input id="schools" maxlength="40" placeholder="उदा. 3"></div>
+          <div class="field"><label for="health">आरोग्य सुविधा</label><input id="health" maxlength="80" placeholder="उदा. 1 आरोग्य केंद्र"></div>
+          <div class="field"><label for="literacy">साक्षरता दर</label><input id="literacy" maxlength="40" placeholder="उदा. 90%"></div>
+          <div class="field"><label for="area">क्षेत्रफळ</label><input id="area" maxlength="60" placeholder="उदा. 583 एकर"></div>
+          <div class="field"><label for="contactName">संपर्क व्यक्ती</label><input id="contactName" maxlength="100" placeholder="नाव"></div>
+          <div class="field"><label for="contactPhone">संपर्क क्रमांक</label><input id="contactPhone" type="tel" maxlength="20" placeholder="मोबाईल क्रमांक"></div>
+        </div>
+        <div class="form-footer"><p id="saveMessage" class="message" role="status"></p><button class="button button-primary" type="submit">Draft सेव्ह करा</button></div>
+      </form>
+      <div class="preview-row"><span>आपले सार्वजनिक पान</span><a id="publicPageLink" href="index.html" target="_blank" rel="noopener">पान पहा ↗</a></div>
+    </section>
+    <section id="accessDenied" class="login-card" hidden><h1>प्रवेश उपलब्ध नाही</h1><p class="muted">या खात्याला Village Admin प्रवेश किंवा गाव नियुक्त केलेले नाही. कृपया Super Admin शी संपर्क साधा.</p></section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-client.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>
