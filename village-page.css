@@ -813,3 +813,8 @@ body{font-family:'Poppins','Hind Vadodara',sans-serif;letter-spacing:.05px}
 .key-official-card span{display:inline-flex;padding:8px 15px;border-radius:999px;background:#e8f5ed;color:var(--green);font-weight:700;font-size:14px}
 @media(max-width:900px){.key-officials-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:460px){.key-officials-grid{grid-template-columns:1fr}.key-official-card{padding:20px 16px}}
+
+/* Health team appears before the health services; clickable demo contact actions */
+.health-team-grid{margin-top:20px;margin-bottom:24px}
+.health-team-grid .official-call-button{margin-top:14px}
+@media(max-width:760px){.health-team-grid{grid-template-columns:1fr}}
