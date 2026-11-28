@@ -648,3 +648,18 @@ body{font-family:'Poppins','Hind Vadodara',sans-serif;letter-spacing:.05px}
     margin-bottom:24px;
   }
 }
+
+/* Gram Panchayat: show all four office-bearer cards in one desktop row */
+#gram-panchayat > .official-grid{
+  grid-template-columns:repeat(4,minmax(0,1fr));
+}
+@media(max-width:900px){
+  #gram-panchayat > .official-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+@media(max-width:480px){
+  #gram-panchayat > .official-grid{
+    grid-template-columns:1fr;
+  }
+}
