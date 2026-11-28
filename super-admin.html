@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#0b6b53">
+<title>Super Admin | Digital Gav</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Vadodara:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="super-admin.css">
+</head>
+<body>
+<header class="topbar"><a class="brand" href="index.html"><span class="mark">DG</span>Digital <b>Gav</b></a><div class="top-actions"><span id="accountEmail"></span><button id="logoutButton" class="btn light" hidden>बाहेर पडा</button></div></header>
+<main class="wrap">
+<section id="loginPanel" class="login card"><span class="eyebrow">DIGITAL GAV · CONTROL CENTRE</span><h1>Super Admin</h1><p class="muted">सर्व गावांच्या वेबसाइट्स आणि प्रशासक व्यवस्थापित करा.</p>
+<form id="loginForm"><label>ईमेल<input id="email" type="email" autocomplete="username" required></label><label>पासवर्ड<input id="password" type="password" autocomplete="current-password" required></label><button class="btn primary" type="submit">लॉगिन करा</button></form><p id="loginMessage" class="message" role="status"></p></section>
+<section id="deniedPanel" class="card login" hidden><h1>प्रवेश नाकारला</h1><p class="muted">या खात्याला Super Admin परवानगी नाही. कृपया Super Admin खात्याने लॉगिन करा.</p></section>
+<section id="dashboard" hidden>
+<div class="page-title"><div><span class="eyebrow">SUPER ADMIN CONTROL CENTRE</span><h1>Digital Gav व्यवस्थापन</h1><p class="muted">गावे, Village Admins आणि वेबसाइट प्रकाशन एका ठिकाणी.</p></div><span class="secure">🔒 Super Admin</span></div>
+<div class="stats"><article class="stat"><span>एकूण गावे</span><strong id="villageCount">0</strong></article><article class="stat"><span>प्रकाशित वेबसाइट्स</span><strong id="publishedCount">0</strong></article><article class="stat"><span>तपासणीसाठी Drafts</span><strong id="draftCount">0</strong></article><article class="stat"><span>Village Admins</span><strong id="adminCount">0</strong></article></div>
+<div class="tabs"><button class="tab active" data-tab="reviews">प्रकाशन तपासणी</button><button class="tab" data-tab="villages">गावे व्यवस्थापन</button><button class="tab" data-tab="admins">Admin नियुक्ती</button></div>
+<section class="panel tab-panel" id="reviewsPanel"><div class="panel-head"><div><h2>प्रकाशन तपासणी</h2><p class="muted">Village Admin ने सेव्ह केलेले Draft तपासा आणि मग प्रकाशित करा.</p></div><button id="refreshButton" class="btn light">↻ Refresh</button></div><div id="reviewList" class="list"></div></section>
+<section class="panel tab-panel" id="villagesPanel" hidden><div class="panel-head"><div><h2>गावे व्यवस्थापन</h2><p class="muted">नवीन गाव जोडा किंवा विद्यमान गावाची स्थिती बदला.</p></div></div>
+<form id="villageCreateForm" class="create-grid"><label>गावाचे नाव<input id="newVillageName" required placeholder="उदा. पोगरवाडी"></label><label>URL Slug<input id="newVillageSlug" required placeholder="उदा. pogarwadi" pattern="[a-z0-9-]+"></label><label>तालुका<input id="newVillageTaluka" placeholder="सातारा"></label><label>जिल्हा<input id="newVillageDistrict" placeholder="सातारा"></label><button class="btn primary" type="submit">＋ गाव जोडा</button></form><p id="villageMessage" class="message"></p><div id="villageList" class="list"></div></section>
+<section class="panel tab-panel" id="adminsPanel" hidden><div class="panel-head"><div><h2>Village Admin नियुक्ती</h2><p class="muted">आधीच Supabase Authentication मध्ये तयार केलेल्या खात्याला गाव नियुक्त करा.</p></div></div><div class="notice">नवीन वापरकर्त्याचे खाते प्रथम Supabase → Authentication → Users मधून तयार करा. येथे त्या खात्याला गाव आणि Village Admin भूमिका देता येईल. पासवर्ड येथे साठवला जात नाही.</div><form id="assignForm" class="assign-grid"><label>वापरकर्ता खाते<select id="profileSelect" required><option value="">खाते निवडा</option></select></label><label>गाव<select id="assignVillageSelect" required><option value="">गाव निवडा</option></select></label><button class="btn primary" type="submit">Admin नियुक्त करा</button></form><p id="assignMessage" class="message"></p><div id="adminList" class="list"></div></section>
+</section>
+</main>
+<div id="previewModal" class="modal" hidden><div class="modal-card"><div class="panel-head"><h2 id="previewTitle">Draft Preview</h2><button id="closePreview" class="btn light">बंद करा ✕</button></div><pre id="previewContent"></pre><div class="modal-actions"><button id="rejectButton" class="btn danger">Draft म्हणून ठेवा</button><button id="publishButton" class="btn primary">✓ प्रकाशित करा</button></div><p id="publishMessage" class="message"></p></div></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase-client.js"></script><script src="super-admin.js"></script>
+</body></html>
