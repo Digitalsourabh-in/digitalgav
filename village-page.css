@@ -851,3 +851,7 @@ body{font-family:'Poppins','Hind Vadodara',sans-serif;letter-spacing:.05px}
   transform:translateY(-1px);
   box-shadow:0 5px 14px rgba(0,0,0,.12);
 }
+
+/* Combined culture, traditions and tourism section */
+.combined-subheading{font-size:19px;font-weight:800;color:var(--green-dark);margin:26px 0 14px}
+.section-anchor{display:block;position:relative;top:-90px;visibility:hidden}
