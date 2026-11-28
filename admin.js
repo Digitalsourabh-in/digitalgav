@@ -111,7 +111,7 @@
       document.querySelectorAll('[data-path]').forEach(input=>setPath(content,input.dataset.path,input.value.trim()));
       // Hero heading and subtitle are fixed for every village and are not admin-editable.
       if(content.hero){delete content.hero.title;delete content.hero.subtitle;}
-      const aboutDescription=(content.about?.description||'').replace(/\\s+/g,' ').trim();
+      const aboutDescription=(content.about?.description||'').replace(/\s+/g,' ').trim();
       content.about=content.about||{};
       content.about.description=aboutDescription;
       content.about.introduction=aboutDescription;
@@ -147,7 +147,8 @@
         : await client.from('village_pages').insert(payload).select('id,content').single();
       if(result.error) throw result.error;
       existingPageId=result.data.id;
-      originalContent=clone(result.data.content);\n      if (heroFileInput) heroFileInput.value='';
+      originalContent=clone(result.data.content);
+      if (heroFileInput) heroFileInput.value='';
       $('draftBadge').textContent='Draft';
       const success='तुमची माहिती Draft म्हणून यशस्वीरित्या सेव्ह झाली! सार्वजनिक वेबसाइटवर बदल दिसण्यासाठी Super Admin ची मंजुरी आणि प्रकाशन आवश्यक आहे.';
       showMessage(saveMessage,success);
