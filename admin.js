@@ -127,13 +127,13 @@
       content.facilities.schools=content.facilities.schools??'';
       content.facilities.health_centres=content.facilities.health_centres??'';
       content.gramPanchayat=content.gramPanchayat||{};
-      content.gramPanchayat.keyOfficials=(content.gramPanchayat.keyOfficials||[]).slice(0,5);
+      content.gramPanchayat.keyOfficials=(content.gramPanchayat.keyOfficials||[]).slice(0,4);
       content.gramPanchayat.additionalOfficials=(content.gramPanchayat.additionalOfficials||[]).slice(0,8);
       content.gramPanchayat.otherOfficials=(content.gramPanchayat.otherOfficials||[]).slice(0,4);
-      const fixedImportantOfficials=[['पोलीस पाटील','सौ. वैशाली जोतिराम गुत्तव'],['तंटामुक्ती अध्यक्ष','श्री. लहू परशुराम घोरपडे'],['आशाताई','सौ. अलका सुरेश काटकर'],['अंगणवाडी सेविका','सौ. सुनिता भिकू मोहिते']];
       while(content.gramPanchayat.otherOfficials.length<4)content.gramPanchayat.otherOfficials.push({designation:'',name:'',phone:''});
-      content.gramPanchayat.otherOfficials=content.gramPanchayat.otherOfficials.map((person,i)=>({designation:fixedImportantOfficials[i][0],name:person.name||fixedImportantOfficials[i][1],phone:person.phone||''}));
-      while(content.gramPanchayat.keyOfficials.length<5)content.gramPanchayat.keyOfficials.push({name:'',phone:''});
+      const fixedImportantRoles=['पोलीस पाटील','तंटामुक्ती अध्यक्ष','आशाताई','अंगणवाडी सेविका'];
+      content.gramPanchayat.otherOfficials=content.gramPanchayat.otherOfficials.map((person,i)=>({designation:fixedImportantRoles[i],name:(person.name||'').trim(),phone:(person.phone||'').trim()}));
+      content.gramPanchayat.keyOfficials=content.gramPanchayat.keyOfficials.slice(0,4);
       while(content.gramPanchayat.additionalOfficials.length<8)content.gramPanchayat.additionalOfficials.push({designation:'',name:'',phone:''});
       const heroFile = heroFileInput?.files?.[0];
       if (heroFile) {
