@@ -51,6 +51,19 @@
     const legacyDescription=[getPath(content,'about.introduction') || content.introduction,getPath(content,'about.history') || content.history].filter(Boolean).join(' ').replace(/\s+/g,' ').trim();
     $('[data-path="about.description"]').value=savedDescription || legacyDescription;
   }
+  const heroFileInput = $('heroImageFile');
+  const heroPreview = $('heroImagePreview');
+  if (heroFileInput) heroFileInput.addEventListener('change', () => {
+    const file = heroFileInput.files && heroFileInput.files[0];
+    if (!file) return;
+    if (!['image/jpeg','image/png','image/webp'].includes(file.type) || file.size > 5 * 1024 * 1024) {
+      heroFileInput.value = '';
+      notify('कृपया JPG, PNG किंवा WebP फोटो निवडा. कमाल आकार 5 MB आहे.', true);
+      return;
+    }
+    heroPreview.src = URL.createObjectURL(file);
+    heroPreview.hidden = false;
+  });
   async function loadDashboard(user) {
     currentUser=user;
     const {data:profile,error:profileError}=await client.from('profiles').select('id,full_name,role,village_id,can_publish').eq('id',user.id).single();
@@ -72,6 +85,8 @@
     existingPageId=page ? page.id : null;
     originalContent=clone(page ? page.content : {});
     setEditorValues(originalContent);
+    if (heroPreview && originalContent.hero?.image) { heroPreview.src=originalContent.hero.image; heroPreview.hidden=false; }
+
     $('draftBadge').textContent=page && page.is_published?'प्रकाशित':'Draft';
   }
 
@@ -116,13 +131,23 @@
       content.gramPanchayat.additionalOfficials=(content.gramPanchayat.additionalOfficials||[]).slice(0,8);
       while(content.gramPanchayat.keyOfficials.length<4)content.gramPanchayat.keyOfficials.push({name:'',phone:''});
       while(content.gramPanchayat.additionalOfficials.length<8)content.gramPanchayat.additionalOfficials.push({designation:'',name:'',phone:''});
+      const heroFile = heroFileInput?.files?.[0];
+      if (heroFile) {
+        const extension = heroFile.type === 'image/png' ? 'png' : heroFile.type === 'image/webp' ? 'webp' : 'jpg';
+        const storagePath = assignedVillage.slug + '/hero-image.' + extension;
+        const { error: uploadError } = await client.storage.from('digitalgav-village-images').upload(storagePath, heroFile, { upsert: true, contentType: heroFile.type, cacheControl: '3600' });
+        if (uploadError) throw uploadError;
+        const { data: publicUrl } = client.storage.from('digitalgav-village-images').getPublicUrl(storagePath);
+        content.hero = content.hero || {};
+        content.hero.image = publicUrl.publicUrl;
+      }
       const payload={village_id:assignedVillage.id,content,is_published:false,updated_by:currentUser.id,updated_at:new Date().toISOString()};
       const result=existingPageId
         ? await client.from('village_pages').update(payload).eq('id',existingPageId).select('id,content').single()
         : await client.from('village_pages').insert(payload).select('id,content').single();
       if(result.error) throw result.error;
       existingPageId=result.data.id;
-      originalContent=clone(result.data.content);
+      originalContent=clone(result.data.content);\n      if (heroFileInput) heroFileInput.value='';
       $('draftBadge').textContent='Draft';
       const success='तुमची माहिती Draft म्हणून यशस्वीरित्या सेव्ह झाली! सार्वजनिक वेबसाइटवर बदल दिसण्यासाठी Super Admin ची मंजुरी आणि प्रकाशन आवश्यक आहे.';
       showMessage(saveMessage,success);
